@@ -52,7 +52,7 @@ namespace P2P {
 				return -1;
 			}
 			for (int i = 0; i < recieved; ++i) {
-				if (!peers[index].buff.Deposit(&buffer[i])) //if we fail, try again (Blocking)
+				if (!peers[index].buff.Put(&buffer[i])) //if we fail, try again (Blocking)
 					--i;
 			}
 		}

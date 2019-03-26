@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include "peer.h"
 #include <map>
-
+#include "TaskManager.h"
 
 #ifdef _WIN32						//Windows sockets
 	#ifndef _WIN32_WINNT

@@ -30,6 +30,12 @@
     <ClInclude Include="P2P.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TaskManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RPCManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Peer.cpp">
@@ -39,6 +45,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="P2P.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TaskManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RPCManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

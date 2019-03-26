@@ -2,11 +2,6 @@
 
 
 
-P2P::P2P()
-{
-}
+void P2P::Initialize() {
 
-
-P2P::~P2P()
-{
 }
