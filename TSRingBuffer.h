@@ -1,5 +1,10 @@
 #pragma once
-#include<windows.h>
+#ifdef _WIN32
+	#include<windows.h>
+#else
+	#include <unistd.h>
+	#include <sys/mman.h>
+#endif
 #include"CopyableAtomic.h"
 namespace P2P {
 	template< class T >
@@ -14,24 +19,41 @@ namespace P2P {
 
 		int InitializeBuffer(__int32 size) {
 			granularity = sizeof(T);
+#ifdef _WIN32
 			SYSTEM_INFO si;
 			GetSystemInfo(&si);
 			DWORD pageSize = si.dwAllocationGranularity;
 			length = (size * granularity) + pageSize - ((size * granularity) % pageSize);						//Round up according to the page granularity
 			size_t allocSize = length * 2;
-
 			void* ptr = VirtualAlloc(0, allocSize, MEM_RESERVE, PAGE_NOACCESS);									//Reserve possible memory & hope we can claim it should implement a fail case
 			VirtualFree(ptr, 0, MEM_RELEASE);
 			HANDLE hMapFile = CreateFileMapping(INVALID_HANDLE_VALUE, 0, PAGE_READWRITE, 0, length, 0);			//Create & mirror the map
 			void *pBuf = (void*)MapViewOfFileEx(hMapFile, FILE_MAP_ALL_ACCESS, 0, 0, length, ptr);
 			MapViewOfFileEx(hMapFile, FILE_MAP_ALL_ACCESS, 0, 0, length, (char*)ptr + length);
-
 			buffer = (char*)pBuf;
+#else
+			int fd;
+			int pageSize = getpagesize();
+			length = (size * granularity) + pageSize - ((size * granularity) % pageSize);
+			// Make an anonymous file and set its size
+			fd = shm_open("queue_region", O_RDWR | O_CREAT, 0600);
+			ftruncate(fd, length);
+
+			// Ask mmap for an address at a location where we can put both virtual copies of the buffer
+			buffer = mmap(NULL, 2 * length, PROT_NONE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+
+			// Map the buffer at that address
+			mmap(buffer, length, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_FIXED, fd, 0);
+
+			// Now map it again, in the next virtual page
+			mmap(buffer + length, length, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_FIXED, fd, 0);
+#endif
 			return size;
 		}
 
 		void Delete() {
 			delete[] buffer;
+			//Add ‘-lrt’ to your LDFLAGS and remember to shm_unlink() it when you’re done. Everything else stays the same, including the performance.
 		}
 
 		bool Put(T* element) {
@@ -39,7 +61,7 @@ namespace P2P {
 				return false;
 			memcpy(buffer + write, element, granularity);
 			write += granularity;
-			write = write % length;																				//If we enter the mirrored buffer, loop back into the first
+			write -= length * (write > length);																	//If we enter the mirrored buffer, loop back into the first
 			return true;
 		}
 
@@ -49,7 +71,7 @@ namespace P2P {
 				return t;
 			memcpy(&t, buffer + read, granularity);
 			read += granularity;
-			read = read % length;																				//If we enter the mirrored buffer, loop back into the first(should probably just mod it for performance)
+			read -= length * (read > length);																	//If we enter the mirrored buffer, loop back into the first(should probably just mod it for performance)
 			return t;
 		}
 
