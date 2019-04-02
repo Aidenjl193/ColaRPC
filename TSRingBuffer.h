@@ -4,7 +4,7 @@
 #else
 	#include <unistd.h>
 	#include <sys/mman.h>
-#include <fcntl.h>
+	#include <fcntl.h>
 #endif
 #include"CopyableAtomic.h"
 namespace P2P {
@@ -13,12 +13,12 @@ namespace P2P {
 	public:
 
 		char*						buffer;
-		__int32_t				   	length;
-		CopyableAtomic<__int32_t>  	read;
-		CopyableAtomic<__int32_t>  	write;
-		__int32_t  					granularity;
+		int							length;
+		CopyableAtomic<int>  		read;
+		CopyableAtomic<int>			write;
+		int  						granularity;
 
-		int InitializeBuffer(__int32_t size) {
+		int InitializeBuffer(int size) {
 			granularity = sizeof(T);
 #ifdef _WIN32
 			SYSTEM_INFO si;
@@ -54,7 +54,11 @@ namespace P2P {
 
 		void Delete() {
 			delete[] buffer;
-			shm_unlink("queue_region");
+			#ifdef _WIN32
+
+			#else
+				shm_unlink("queue_region");
+			#endif	
 			//Add ‘-lrt’ to your LDFLAGS and remember to shm_unlink() it when you’re done. Everything else stays the same, including the performance.
 		}
 

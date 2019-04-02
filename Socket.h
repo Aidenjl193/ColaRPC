@@ -7,10 +7,7 @@
 #include "TaskManager.h"
 
 #ifdef _WIN32						//Windows sockets
-	#ifndef _WIN32_WINNT
-		#define _WIN32_WINNT 0x0501  // Win XP
-	#endif
-	#include <winsock2.h>
+	#include <WinSock2.h>
 	#include <Ws2tcpip.h>
 	#pragma comment(lib, "Ws2_32.lib")
 #else								//Posix socks
@@ -23,11 +20,11 @@
 #define PACKET_SIZE 65507
 
 #ifdef _WIN32
-# define STDCALL __stdcall
+	#define STDCALL __stdcall
 #else
-#define SOCKET int
-#define SOCKADDR struct sockaddr
-#define STDCALL 
+	#define SOCKET int
+	#define SOCKADDR struct sockaddr
+	#define STDCALL 
 #endif
 
 namespace P2P {

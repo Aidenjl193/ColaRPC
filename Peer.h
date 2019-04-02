@@ -1,8 +1,5 @@
 #pragma once
 #ifdef _WIN32						//Windows sockets
-	#ifndef _WIN32_WINNT
-		#define _WIN32_WINNT 0x0501  // Win XP
-	#endif
 	#include <winsock2.h>
 	#include <Ws2tcpip.h>
 	#pragma comment(lib, "Ws2_32.lib")
