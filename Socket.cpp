@@ -16,8 +16,10 @@ namespace P2P {
 	}
 
 	Socket::Socket(int port) {
+	  #ifdef _WIN32
 		WSAData data;
 		WSAStartup(MAKEWORD(2, 2), &data);
+		#endif
 		local.sin_family = AF_INET;
 		local.sin_addr.s_addr = INADDR_ANY;
 		local.sin_port = htons(port);
@@ -32,7 +34,7 @@ namespace P2P {
 
 	int Socket::Recieve() { //Dish out messages to peers
 		sockaddr_in senderAddr;
-		int SenderAddrSize = sizeof(sockaddr_in);
+		socklen_t SenderAddrSize = sizeof(sockaddr_in);
 		char buffer[PACKET_SIZE];
 		int len = PACKET_SIZE;
 		int32_t recieved = recvfrom(s, buffer, len, 0, (SOCKADDR *)& senderAddr, &SenderAddrSize);
@@ -84,7 +86,7 @@ namespace P2P {
 	}
 
 	int Socket::GetPort() {
-		int len = sizeof(local);
+		socklen_t len = sizeof(local);
 		getsockname(s, (sockaddr *)&local, &len);
 		return ntohs(local.sin_port);
 	}

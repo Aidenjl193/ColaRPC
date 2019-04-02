@@ -1,0 +1,27 @@
+[
+{
+  "directory": "/Users/aiden/P2P/build",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++    -O3 -DNDEBUG   -std=gnu++11 -o CMakeFiles/P2P.dir/P2P.cpp.o -c /Users/aiden/P2P/P2P.cpp",
+  "file": "/Users/aiden/P2P/P2P.cpp"
+},
+{
+  "directory": "/Users/aiden/P2P/build",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++    -O3 -DNDEBUG   -std=gnu++11 -o CMakeFiles/P2P.dir/Peer.cpp.o -c /Users/aiden/P2P/Peer.cpp",
+  "file": "/Users/aiden/P2P/Peer.cpp"
+},
+{
+  "directory": "/Users/aiden/P2P/build",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++    -O3 -DNDEBUG   -std=gnu++11 -o CMakeFiles/P2P.dir/RPCManager.cpp.o -c /Users/aiden/P2P/RPCManager.cpp",
+  "file": "/Users/aiden/P2P/RPCManager.cpp"
+},
+{
+  "directory": "/Users/aiden/P2P/build",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++    -O3 -DNDEBUG   -std=gnu++11 -o CMakeFiles/P2P.dir/Socket.cpp.o -c /Users/aiden/P2P/Socket.cpp",
+  "file": "/Users/aiden/P2P/Socket.cpp"
+},
+{
+  "directory": "/Users/aiden/P2P/build",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++    -O3 -DNDEBUG   -std=gnu++11 -o CMakeFiles/P2P.dir/TaskManager.cpp.o -c /Users/aiden/P2P/TaskManager.cpp",
+  "file": "/Users/aiden/P2P/TaskManager.cpp"
+}
+]

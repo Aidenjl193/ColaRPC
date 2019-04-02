@@ -4,6 +4,7 @@
 #else
 	#include <unistd.h>
 	#include <sys/mman.h>
+#include <fcntl.h>
 #endif
 #include"CopyableAtomic.h"
 namespace P2P {
@@ -12,12 +13,12 @@ namespace P2P {
 	public:
 
 		char*						buffer;
-		__int32						length;
-		CopyableAtomic<__int32>		read;
-		CopyableAtomic<__int32>		write;
-		__int32						granularity;
+		__int32_t				   	length;
+		CopyableAtomic<__int32_t>  	read;
+		CopyableAtomic<__int32_t>  	write;
+		__int32_t  					granularity;
 
-		int InitializeBuffer(__int32 size) {
+		int InitializeBuffer(__int32_t size) {
 			granularity = sizeof(T);
 #ifdef _WIN32
 			SYSTEM_INFO si;
@@ -40,7 +41,7 @@ namespace P2P {
 			ftruncate(fd, length);
 
 			// Ask mmap for an address at a location where we can put both virtual copies of the buffer
-			buffer = mmap(NULL, 2 * length, PROT_NONE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+			buffer = (char*)mmap(NULL, 2 * length, PROT_NONE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
 
 			// Map the buffer at that address
 			mmap(buffer, length, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_FIXED, fd, 0);
@@ -53,6 +54,7 @@ namespace P2P {
 
 		void Delete() {
 			delete[] buffer;
+			shm_unlink("queue_region");
 			//Add ‘-lrt’ to your LDFLAGS and remember to shm_unlink() it when you’re done. Everything else stays the same, including the performance.
 		}
 

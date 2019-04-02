@@ -2,7 +2,7 @@
 
 #include <string>
 #include <stdlib.h>
-#include "peer.h"
+#include "Peer.h"
 #include <map>
 #include "TaskManager.h"
 
@@ -22,12 +22,20 @@
 
 #define PACKET_SIZE 65507
 
+#ifdef _WIN32
+# define STDCALL __stdcall
+#else
+#define SOCKET int
+#define SOCKADDR struct sockaddr
+#define STDCALL 
+#endif
+
 namespace P2P {
 	class Socket {
 	public:
 		//Callbacks
-		typedef bool(__stdcall *ConnectionParams)(const char* ip, int port, const char* buffer, int recieved);
-		typedef void(__stdcall *OnConnection)(const char* ip, int port, int uid);
+		typedef bool(STDCALL *ConnectionParams)(const char* ip, int port, const char* buffer, int recieved);
+		typedef void(STDCALL *OnConnection)(const char* ip, int port, int uid);
 
 		ConnectionParams connectionParams = [](const char*, int, const char*, int) { return true; }; //Accept all connections by default
 		OnConnection onConnection;
