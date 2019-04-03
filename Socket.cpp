@@ -50,18 +50,18 @@ namespace P2P {
 
 		if (index != -1) { //Connection already exists so add the message to its queue
 			//If the connection has dropped remove the peer
+		  std::cout << "Index: " << index << "\n";
 			if (recieved == 0) { //Need to raise a connection dropped
 				return -1;
 			}
 			for (int i = 0; i < recieved; ++i) {
+			  //ERROR
 				if (!peers[index].buff.Put(&buffer[i])) //if we fail, try again (Blocking)
 					--i;
 			}
-		}
-		else { //Create a new instance of Peer to host the new connection
+		} else { //Create a new instance of Peer to host the new connection
 		 //Check if it maches our connection criteria
-
-		 //Needs abstraction
+		  
 		 //Get IP
 			char IP[INET_ADDRSTRLEN];
 			inet_ntop(AF_INET, &(senderAddr.sin_addr), IP, INET_ADDRSTRLEN);

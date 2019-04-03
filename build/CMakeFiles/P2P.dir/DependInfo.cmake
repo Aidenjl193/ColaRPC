@@ -7,6 +7,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/Users/aiden/P2P/P2P.cpp" "/Users/aiden/P2P/build/CMakeFiles/P2P.dir/P2P.cpp.o"
   "/Users/aiden/P2P/Peer.cpp" "/Users/aiden/P2P/build/CMakeFiles/P2P.dir/Peer.cpp.o"
   "/Users/aiden/P2P/RPCManager.cpp" "/Users/aiden/P2P/build/CMakeFiles/P2P.dir/RPCManager.cpp.o"
+  "/Users/aiden/P2P/Serializer.cpp" "/Users/aiden/P2P/build/CMakeFiles/P2P.dir/Serializer.cpp.o"
   "/Users/aiden/P2P/Socket.cpp" "/Users/aiden/P2P/build/CMakeFiles/P2P.dir/Socket.cpp.o"
   "/Users/aiden/P2P/TaskManager.cpp" "/Users/aiden/P2P/build/CMakeFiles/P2P.dir/TaskManager.cpp.o"
   )

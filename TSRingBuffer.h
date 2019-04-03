@@ -7,6 +7,7 @@
 	#include <fcntl.h>
 #endif
 #include"CopyableAtomic.h"
+
 namespace P2P {
 	template< class T >
 	class TSRingBuffer {

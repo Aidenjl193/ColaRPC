@@ -23,5 +23,10 @@
   "directory": "/Users/aiden/P2P/build",
   "command": "/Library/Developer/CommandLineTools/usr/bin/c++    -O3 -DNDEBUG   -std=gnu++11 -o CMakeFiles/P2P.dir/TaskManager.cpp.o -c /Users/aiden/P2P/TaskManager.cpp",
   "file": "/Users/aiden/P2P/TaskManager.cpp"
+},
+{
+  "directory": "/Users/aiden/P2P/build",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++    -O3 -DNDEBUG   -std=gnu++11 -o CMakeFiles/P2P.dir/Serializer.cpp.o -c /Users/aiden/P2P/Serializer.cpp",
+  "file": "/Users/aiden/P2P/Serializer.cpp"
 }
 ]

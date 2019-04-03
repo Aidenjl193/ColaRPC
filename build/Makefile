@@ -204,6 +204,33 @@ RPCManager.cpp.s:
 	$(MAKE) -f CMakeFiles/P2P.dir/build.make CMakeFiles/P2P.dir/RPCManager.cpp.s
 .PHONY : RPCManager.cpp.s
 
+Serializer.o: Serializer.cpp.o
+
+.PHONY : Serializer.o
+
+# target to build an object file
+Serializer.cpp.o:
+	$(MAKE) -f CMakeFiles/P2P.dir/build.make CMakeFiles/P2P.dir/Serializer.cpp.o
+.PHONY : Serializer.cpp.o
+
+Serializer.i: Serializer.cpp.i
+
+.PHONY : Serializer.i
+
+# target to preprocess a source file
+Serializer.cpp.i:
+	$(MAKE) -f CMakeFiles/P2P.dir/build.make CMakeFiles/P2P.dir/Serializer.cpp.i
+.PHONY : Serializer.cpp.i
+
+Serializer.s: Serializer.cpp.s
+
+.PHONY : Serializer.s
+
+# target to generate assembly for a file
+Serializer.cpp.s:
+	$(MAKE) -f CMakeFiles/P2P.dir/build.make CMakeFiles/P2P.dir/Serializer.cpp.s
+.PHONY : Serializer.cpp.s
+
 Socket.o: Socket.cpp.o
 
 .PHONY : Socket.o
@@ -276,6 +303,9 @@ help:
 	@echo "... RPCManager.o"
 	@echo "... RPCManager.i"
 	@echo "... RPCManager.s"
+	@echo "... Serializer.o"
+	@echo "... Serializer.i"
+	@echo "... Serializer.s"
 	@echo "... Socket.o"
 	@echo "... Socket.i"
 	@echo "... Socket.s"

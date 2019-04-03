@@ -4,6 +4,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/P2P.dir/RPCManager.cpp.o"
   "CMakeFiles/P2P.dir/Socket.cpp.o"
   "CMakeFiles/P2P.dir/TaskManager.cpp.o"
+  "CMakeFiles/P2P.dir/Serializer.cpp.o"
   "P2P.pdb"
   "P2P"
 )

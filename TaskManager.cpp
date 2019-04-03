@@ -59,7 +59,7 @@ namespace P2P {
 				Task task = TaskManager::commandBuffer.Get();
 				TaskManager::getMtx.unlock();
 
-				task.function(task.data);//Run the job with the supplied params
+				task.function(task.data, task.len);//Run the job with the supplied params
 			}
 
 			//If there are no tasks kill the thread so we don't hog the CPU
