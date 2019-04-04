@@ -36,9 +36,7 @@ int main() {
 	  }
 	}
   } else {
-	std::cout << "Enter host IP:\n";
-	std::string IP = "";
-	std::cin >> IP;
+	const char*  IP = "127.0.0.1";
 
 	std::cout << "Enter host port:\n";
 	int port = 0;

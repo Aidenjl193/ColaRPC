@@ -39,6 +39,7 @@ namespace P2P {
 			length = (size * granularity) + pageSize - ((size * granularity) % pageSize);
 			// Make an anonymous file and set its size
 			fd = shm_open("queue_region", O_RDWR | O_CREAT, 0600);
+			shm_unlink("queue_region");
 			ftruncate(fd, length);
 
 			// Ask mmap for an address at a location where we can put both virtual copies of the buffer
@@ -55,11 +56,6 @@ namespace P2P {
 
 		void Delete() {
 			delete[] buffer;
-			#ifdef _WIN32
-
-			#else
-				shm_unlink("queue_region");
-			#endif	
 			//Add ‘-lrt’ to your LDFLAGS and remember to shm_unlink() it when you’re done. Everything else stays the same, including the performance.
 		}
 
