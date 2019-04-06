@@ -7,9 +7,11 @@ namespace P2P {
 
   void ExecuteRPC(char* data, int len) {
 	Serializer serializer;
+	serializer.buffer = data + len - 4; //Read int from back
+	serializer.write = len;
 	int rpcID = 0;
 	serializer.Deserialize(&rpcID);
-	RPCManager::RaiseRPC(rpcID, (char*)&serializer.buffer[0], serializer.buffer.size());
+	RPCManager::RaiseRPC(rpcID, data, serializer.write - 4);
   }
 
 	int Socket::GenerateUID() {
@@ -40,8 +42,8 @@ namespace P2P {
 
   void Socket::SendRPC(std::string RPC, Serializer* serializer, int peerHandle) {
 	int rpcID = RPCManager::GetRPCID(RPC);
-	serializer->Serialize(rpcID);
-	Send((char*)&serializer->buffer[0], serializer->buffer.size(), peerHandle);
+	serializer->Serialize(rpcID);//Need to serialize rpcid at front
+	Send((char*)&serializer->buffer[0], serializer->write, peerHandle);
   }
 
 	int Socket::Recieve() { //Dish out messages to peers

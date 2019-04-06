@@ -6,6 +6,12 @@
 
 void print(char* data, int len) {
   std::cout << "RPC Called!\n";
+  P2P::Serializer serializer;
+  serializer.buffer = data;
+  serializer.write = len;
+  std::string str = "";
+  serializer.Deserialize(&str);
+  std::cout << str;
 }
 
 int main() {
@@ -30,10 +36,6 @@ int main() {
   if(server) {
 	while(true) {
 	  socket.Recieve();
-	  //for(std::map<int, P2P::Peer>::value_type& x : socket.peers) {
-		//while(x.second.buff.CanGet())
-		  //std::cout << x.second.buff.Get();
-		//}
 	}
   } else {
 	const char*  IP = "127.0.0.1";
@@ -45,11 +47,13 @@ int main() {
 	std::cout << "Connecting to host at: " << IP << ":" << port << "\n";
 	int peerHandle = socket.NewPeer((char*)&IP, port);
 	while(true) {
+	  char* data = (char*)malloc(PACKET_SIZE);
 	  P2P:: Serializer serializer;
-	  std::string string = "Hello RPC!";
+	  serializer.buffer = data;
+	  std::string string = "Hello RPC!\n";
 	  serializer.Serialize(string);
 	  socket.SendRPC("Print", &serializer, peerHandle);
-	  
+	  delete[] data;
 	  std::cin.get();
 	}
   }

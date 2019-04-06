@@ -12,9 +12,13 @@ namespace P2P {
    		 } endian = {0x01020304};
    		 return endian.c[0] == 1;
 	}
-	
-	std::vector<char> buffer;
+	char* buffer;
+	int write = 0;
+	int read = 0;
 
+	void WriteByte(char b);
+	char ReadByte();
+	
 	//int
 	void Serialize(int i);
 
@@ -33,6 +37,7 @@ namespace P2P {
 
 	void Deserialize(char* c);
 
+	
 	
   };
 }
