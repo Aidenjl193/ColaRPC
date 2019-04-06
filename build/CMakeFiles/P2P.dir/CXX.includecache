@@ -10,20 +10,6 @@
 atomic
 -
 
-/Users/aiden/P2P/P2P.cpp
-iostream
--
-string
--
-Serializer.h
-/Users/aiden/P2P/Serializer.h
-Socket.h
-/Users/aiden/P2P/Socket.h
-
-/Users/aiden/P2P/Peer.cpp
-Peer.h
-/Users/aiden/P2P/Peer.h
-
 /Users/aiden/P2P/Peer.h
 winsock2.h
 -
@@ -37,17 +23,9 @@ netdb.h
 -
 unistd.h
 -
-TSRingBuffer.h
-/Users/aiden/P2P/TSRingBuffer.h
-
-/Users/aiden/P2P/RPCManager.cpp
-RPCManager.h
-/Users/aiden/P2P/RPCManager.h
-iostream
--
 
 /Users/aiden/P2P/RPCManager.h
-Map
+Vector
 -
 string
 -
@@ -75,6 +53,10 @@ map
 -
 TaskManager.h
 /Users/aiden/P2P/TaskManager.h
+RPCManager.h
+/Users/aiden/P2P/RPCManager.h
+Serializer.h
+/Users/aiden/P2P/Serializer.h
 WinSock2.h
 -
 Ws2tcpip.h
@@ -99,10 +81,6 @@ fcntl.h
 -
 CopyableAtomic.h
 /Users/aiden/P2P/CopyableAtomic.h
-
-/Users/aiden/P2P/TaskManager.cpp
-TaskManager.h
-/Users/aiden/P2P/TaskManager.h
 
 /Users/aiden/P2P/TaskManager.h
 cstdlib

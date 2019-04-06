@@ -8,12 +8,10 @@ namespace P2P {
 		address.sin_addr.s_addr = *destAddr;
 		address.sin_port = htons(destinationPort);
 		delete destAddr;
-		buff.InitializeBuffer(BUFFER_SIZE);
 	}
 
 	Peer::Peer(sockaddr_in add) {
 		address = add;
-		buff.InitializeBuffer(BUFFER_SIZE);
 	}
 
 	Peer::Peer() {

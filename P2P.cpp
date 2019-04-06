@@ -1,19 +1,16 @@
 #include <iostream>
 #include <string>
-#include "Serializer.h"
 #include "Socket.h"
+#include "RPCManager.h"
+#include "TaskManager.h"
 
-void print(void* string, int len) {
-  char chars[len];
-  memcpy(&chars, string, len);
-  for(int i = 0; i < len; ++i) {
-	std::cout << chars[i];
-  }
+void print(char* data, int len) {
+  std::cout << "RPC Called!\n";
 }
 
 int main() {
   std::cout << "Starting...\n";
-
+  P2P::TaskManager::InitializeThreads(4);
   P2P::Socket socket = P2P::Socket(0);
   std::cout << "Socket bound on port: " << socket.GetPort() << "\n";
 
@@ -23,6 +20,9 @@ int main() {
 
   bool server = true;
 
+  //Setup RPCS
+  RPCManager::CreateRPC("Print", print);
+
   std::cout << "Server? 1/0\n";
 
   std::cin >> server;
@@ -30,10 +30,10 @@ int main() {
   if(server) {
 	while(true) {
 	  socket.Recieve();
-	  for(std::map<int, P2P::Peer>::value_type& x : socket.peers) {
-		while(x.second.buff.CanGet())
-		  std::cout << x.second.buff.Get();
-	  }
+	  //for(std::map<int, P2P::Peer>::value_type& x : socket.peers) {
+		//while(x.second.buff.CanGet())
+		  //std::cout << x.second.buff.Get();
+		//}
 	}
   } else {
 	const char*  IP = "127.0.0.1";
@@ -45,7 +45,11 @@ int main() {
 	std::cout << "Connecting to host at: " << IP << ":" << port << "\n";
 	int peerHandle = socket.NewPeer((char*)&IP, port);
 	while(true) {
-	  socket.Send("Hello\n", peerHandle);
+	  P2P:: Serializer serializer;
+	  std::string string = "Hello RPC!";
+	  serializer.Serialize(string);
+	  socket.SendRPC("Print", &serializer, peerHandle);
+	  
 	  std::cin.get();
 	}
   }

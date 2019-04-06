@@ -5,6 +5,13 @@ namespace P2P {
 		return memcmp(&a, &b, sizeof(sockaddr_in)) == 0;
 	}
 
+  void ExecuteRPC(char* data, int len) {
+	Serializer serializer;
+	int rpcID = 0;
+	serializer.Deserialize(&rpcID);
+	RPCManager::RaiseRPC(rpcID, (char*)&serializer.buffer[0], serializer.buffer.size());
+  }
+
 	int Socket::GenerateUID() {
 		int UID = 0;
 		bool isUnique = false;
@@ -27,17 +34,30 @@ namespace P2P {
 		bind(s, (sockaddr *)&local, sizeof(local));
 	}
 
-
-	int Socket::Send(const char* packet, int peerHandle) {
-		return sendto(s, packet, strlen(packet), 0, (sockaddr *)&peers[peerHandle].address, sizeof(peers[peerHandle].address));
+  int Socket::Send(const char* packet, int len, int peerHandle) {
+		return sendto(s, packet, len, 0, (sockaddr *)&peers[peerHandle].address, sizeof(peers[peerHandle].address));
 	}
+
+  void Socket::SendRPC(std::string RPC, Serializer* serializer, int peerHandle) {
+	int rpcID = RPCManager::GetRPCID(RPC);
+	serializer->Serialize(rpcID);
+	Send((char*)&serializer->buffer[0], serializer->buffer.size(), peerHandle);
+  }
 
 	int Socket::Recieve() { //Dish out messages to peers
 		sockaddr_in senderAddr;
 		socklen_t SenderAddrSize = sizeof(sockaddr_in);
-		char buffer[PACKET_SIZE];
+
+		//Malloc a buffer
+		char* buffer = (char*)malloc(BUFFER_SIZE);
+		
 		int len = PACKET_SIZE;
-		int32_t recieved = recvfrom(s, buffer, len, 0, (SOCKADDR *)& senderAddr, &SenderAddrSize);
+		int32_t recieved = recvfrom(s, (void*)buffer, len, 0, (SOCKADDR *)& senderAddr, &SenderAddrSize);
+
+		if(recieved == 0) {
+		  delete[] buffer;
+		  return 0;
+		}
 
 		//Check if we have a connection with this peer currently
 		int index = -1;
@@ -49,20 +69,13 @@ namespace P2P {
 		}
 
 		if (index != -1) { //Connection already exists so add the message to its queue
-			//If the connection has dropped remove the peer
-		  std::cout << "Index: " << index << "\n";
-			if (recieved == 0) { //Need to raise a connection dropped
-				return -1;
-			}
-			for (int i = 0; i < recieved; ++i) {
-			  //ERROR
-				if (!peers[index].buff.Put(&buffer[i])) //if we fail, try again (Blocking)
-					--i;
-			}
+		  Task t;
+		  t.data = buffer;
+		  t.len = recieved;
+		  t.function = ExecuteRPC;
+		  TaskManager::AssignTask(t);
 		} else { //Create a new instance of Peer to host the new connection
 		 //Check if it maches our connection criteria
-		  
-		 //Get IP
 			char IP[INET_ADDRSTRLEN];
 			inet_ntop(AF_INET, &(senderAddr.sin_addr), IP, INET_ADDRSTRLEN);
 

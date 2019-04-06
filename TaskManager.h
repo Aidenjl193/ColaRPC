@@ -10,8 +10,8 @@
 namespace P2P {
 	struct Task {
 	public:
-	  void(*function)(void*, int);
-		void* data;
+	  void(*function)(char*, int);
+	  char* data;
 	  int len;
 	};
 

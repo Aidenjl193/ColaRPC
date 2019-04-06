@@ -5,6 +5,8 @@
 #include "Peer.h"
 #include <map>
 #include "TaskManager.h"
+#include "RPCManager.h"
+#include "Serializer.h"
 
 #ifdef _WIN32						//Windows sockets
 	#include <WinSock2.h>
@@ -41,7 +43,8 @@ namespace P2P {
 
 		Socket(int port);
 
-		int Send(const char* packet, int peerHandle);
+	  int Send(const char* packet, int len, int peerHandle);
+	  void SendRPC(std::string RPC, Serializer* serializer, int peerHandle);
 		int Recieve();
 		int GetPort();
 

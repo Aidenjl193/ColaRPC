@@ -1,21 +1,24 @@
 #pragma once
-#include <Map>
+#include <Vector>
 #include <string>
 #include "Socket.h"
 
 struct RPC { //Wrapper for an RPC
 public:
-  void(*function)(void*, int);
+  void(*function)(char*, int);
 };
 
 class RPCManager {
 public:
-static void CreateRPC(std::string name, void(*function)(void*, int));
+static void CreateRPC(std::string name, void(*function)(char*, int));
 
-  static void RaiseRPC(std::string name, void* data, int len);
+  static void RaiseRPC(int rpc, char* data, int len);
 
-  static void SendRPC(int peerHandle, std::string name, void* data);
+  static void SendRPC(int peerHandle, std::string name, char* data);
+
+  static int GetRPCID(std::string name);
 private:
-    static std::map<std::string, RPC> rpcs;
+    static std::vector<RPC> rpcs;
+  static std::vector<std::string> rpcNames;
 };
 

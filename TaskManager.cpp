@@ -60,6 +60,9 @@ namespace P2P {
 				TaskManager::getMtx.unlock();
 
 				task.function(task.data, task.len);//Run the job with the supplied params
+
+				//Free the memory
+				delete[] task.data;
 			}
 
 			//If there are no tasks kill the thread so we don't hog the CPU

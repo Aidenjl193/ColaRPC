@@ -9,14 +9,12 @@
 	#include <netdb.h>
 	#include <unistd.h>
 #endif
-#include "TSRingBuffer.h"
 
 #define BUFFER_SIZE 131072 //Needs experimenting
 namespace P2P{
 	class Peer {
 	public:
 		sockaddr_in address;
-		TSRingBuffer<char> buff;
 
 		int handle;
 
