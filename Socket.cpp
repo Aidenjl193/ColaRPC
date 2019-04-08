@@ -50,7 +50,7 @@ namespace P2P {
 		sockaddr_in senderAddr;
 		socklen_t SenderAddrSize = sizeof(sockaddr_in);
 
-		//Malloc a buffer
+		//Malloc a buffer (Should pool this at some point)
 		char* buffer = (char*)malloc(BUFFER_SIZE);
 		
 		int len = PACKET_SIZE;
@@ -70,13 +70,7 @@ namespace P2P {
 			}
 		}
 
-		if (index != -1) { //Connection already exists so add the message to its queue
-		  Task t;
-		  t.data = buffer;
-		  t.len = recieved;
-		  t.function = ExecuteRPC;
-		  TaskManager::AssignTask(t);
-		} else { //Create a new instance of Peer to host the new connection
+		if (index == -1) { //If the peer does not exist add it to our pool
 		 //Check if it maches our connection criteria
 			char IP[INET_ADDRSTRLEN];
 			inet_ntop(AF_INET, &(senderAddr.sin_addr), IP, INET_ADDRSTRLEN);
@@ -97,6 +91,13 @@ namespace P2P {
 			//Call the onConnection Callback
 			(*onConnection)(IP, senderAddr.sin_port, UID);
 		}
+
+	    Task t;
+  	    t.data = buffer;
+	    t.len = recieved;
+	    t.function = ExecuteRPC;
+	    TaskManager::AssignTask(t);
+		
 		return recieved;
 	}
 
