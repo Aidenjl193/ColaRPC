@@ -1,8 +1,8 @@
 #include "Serializer.h"
 #include <iostream>
 
-namespace P2P{
-
+namespace P2P {
+  
   void Serializer::WriteByte(char b) {
 	buffer[write] = b;
 	write++;

@@ -5,6 +5,7 @@
 namespace P2P {
   class Serializer {
   public:
+	
 	bool is_big_endian() {
 	    union {
     	    uint32_t i;

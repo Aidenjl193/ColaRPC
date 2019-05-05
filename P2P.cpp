@@ -14,14 +14,21 @@ void print(char* data, int len) {
   std::cout << str;
 }
 
+void call(std::string name...) {
+
+}
+
 int main() {
   std::cout << "Starting...\n";
+  
   P2P::TaskManager::InitializeThreads(4);
-  P2P::Socket socket = P2P::Socket(0);
+  
+  P2P::Socket socket = P2P::Socket(0); //Bind socket to random port
+  
   std::cout << "Socket bound on port: " << socket.GetPort() << "\n";
 
-  socket.onConnection = [](const char* ip, int port, int uid) {
-  	std::cout << "New peer " << uid << " connected with IP: " << ip << " and port: " << port << "\n";
+  socket.onConnection = [](const char* ip, int port, int peerHandle) { //On connection callback
+  	std::cout << "New peer " << peerHandle << " connected with IP: " << ip << " and port: " << port << "\n";
   };
 
   bool server = true;
@@ -35,7 +42,7 @@ int main() {
 
   if(server) {
 	while(true) {
-	  socket.Recieve();
+	  socket.Recieve(); //process RPCs
 	}
   } else {
 	const char*  IP = "127.0.0.1";
@@ -47,17 +54,21 @@ int main() {
 	std::cout << "Connecting to host at: " << IP << ":" << port << "\n";
 	int peerHandle = socket.NewPeer((char*)&IP, port);
 	while(true) {
+	  std::cout << "Enter message!\n";
+	  std::string str;
+	  std::cin >> str;
+	  if(str == "exit")
+		return 0;
+	  str += "\n";
+	  
 	  char* data = (char*)malloc(PACKET_SIZE);
-	  P2P:: Serializer serializer;
+	  P2P::Serializer serializer;
 	  serializer.buffer = data;
-	  std::string string = "Hello RPC!\n";
-	  serializer.Serialize(string);
+	  serializer.Serialize(str);
 	  socket.SendRPC("Print", &serializer, peerHandle);
 	  delete[] data;
 	  std::cin.get();
 	}
   }
-
   std::cin.get();
-	
 }
