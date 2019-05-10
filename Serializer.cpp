@@ -16,6 +16,13 @@ namespace P2P {
 	}
 	return 0;
   }
+
+  //recursive
+  void Serializer::Serialize(Serializer s) {
+	for(int i = 0; i < s.write; ++i) {
+	  WriteByte(s.ReadByte());
+	}
+  }
   
 // int
 void Serializer::Serialize(int i) {

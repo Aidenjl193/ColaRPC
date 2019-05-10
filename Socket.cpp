@@ -92,6 +92,7 @@ namespace P2P {
 			(*onConnection)(IP, senderAddr.sin_port, UID);
 		}
 
+		//Run the RPC on the threadpool
 	    Task t;
   	    t.data = buffer;
 	    t.len = recieved;

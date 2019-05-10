@@ -21,6 +21,8 @@ RPCManager.h
 /Users/aiden/P2P/RPCManager.h
 TaskManager.h
 /Users/aiden/P2P/TaskManager.h
+typeinfo
+-
 
 /Users/aiden/P2P/Peer.h
 winsock2.h
@@ -36,6 +38,12 @@ netdb.h
 unistd.h
 -
 
+/Users/aiden/P2P/RPCManager.cpp
+RPCManager.h
+/Users/aiden/P2P/RPCManager.h
+Serializer.h
+/Users/aiden/P2P/Serializer.h
+
 /Users/aiden/P2P/RPCManager.h
 Vector
 -
@@ -44,11 +52,21 @@ string
 Socket.h
 /Users/aiden/P2P/Socket.h
 
+/Users/aiden/P2P/Serializer.cpp
+Serializer.h
+/Users/aiden/P2P/Serializer.h
+iostream
+-
+
 /Users/aiden/P2P/Serializer.h
 vector
 -
 string
 -
+
+/Users/aiden/P2P/Socket.cpp
+Socket.h
+/Users/aiden/P2P/Socket.h
 
 /Users/aiden/P2P/Socket.h
 string

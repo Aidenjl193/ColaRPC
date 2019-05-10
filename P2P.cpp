@@ -3,6 +3,7 @@
 #include "Socket.h"
 #include "RPCManager.h"
 #include "TaskManager.h"
+#include <typeinfo>
 
 void print(char* data, int len) {
   std::cout << "RPC Called!\n";
@@ -14,12 +15,20 @@ void print(char* data, int len) {
   std::cout << str;
 }
 
-void call(std::string name...) {
+void SerializeArgs(void){}
 
+//Recursively parse the arguments
+template <typename A, typename ...B>
+void SerializeArgs(const A& a, B&&... Args) {
+  std::cout << a << std::endl;
+  SerializeArgs(Args...);
 }
 
 int main() {
   std::cout << "Starting...\n";
+
+  auto SendRPC = [](std::string name, auto... arg) { SerializeArgs(arg...); };
+  SendRPC("Hello", 3, 'd');
   
   P2P::TaskManager::InitializeThreads(4);
   

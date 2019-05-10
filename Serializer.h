@@ -19,6 +19,9 @@ namespace P2P {
 
 	void WriteByte(char b);
 	char ReadByte();
+
+	//Recursive
+	void Serialize(Serializer s);
 	
 	//int
 	void Serialize(int i);
@@ -27,6 +30,7 @@ namespace P2P {
 
 	//float
 	void Serialize(float f);
+	void Deserialize(float * f);
 	
 	//String
 	void Serialize(std::string str);

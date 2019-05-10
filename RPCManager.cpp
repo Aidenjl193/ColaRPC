@@ -25,5 +25,5 @@ int RPCManager::GetRPCID(std::string name) {
 	  return i;
 	}
   }
-  return 2147483647;
+  return -1;
 }
