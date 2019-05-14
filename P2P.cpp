@@ -15,20 +15,31 @@ void print(char* data, int len) {
   std::cout << str;
 }
 
-void SerializeArgs(void){}
+template <typename A>
+void SerializeArgs(const A& a) {}
 
-//Recursively parse the arguments
+//Recursively serialize the arguments
 template <typename A, typename ...B>
-void SerializeArgs(const A& a, B&&... Args) {
-  std::cout << a << std::endl;
-  SerializeArgs(Args...);
+void SerializeArgs(P2P::Serializer* serializer, const A& a, B&&... Args) {
+  serializer->Serialize(a);
+  SerializeArgs(serializer, Args...);
 }
 
 int main() {
   std::cout << "Starting...\n";
 
-  auto SendRPC = [](std::string name, auto... arg) { SerializeArgs(arg...); };
-  SendRPC("Hello", 3, 'd');
+  auto SendRPC = [](std::string name, auto... arg) {
+	  char* data = (char*)malloc(PACKET_SIZE);
+	  P2P::Serializer serializer;
+	  serializer.buffer = data;
+	  SerializeArgs(&serializer, arg...); 
+	  //Send the RPC here
+
+	  //Delete data
+	  delete[] data;
+  };
+
+  SendRPC("Hello", 3, "Wagwan", 5);
   
   P2P::TaskManager::InitializeThreads(4);
   

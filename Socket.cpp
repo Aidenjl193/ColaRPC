@@ -54,7 +54,12 @@ namespace P2P {
 		char* buffer = (char*)malloc(BUFFER_SIZE);
 		
 		int len = PACKET_SIZE;
+
+#ifdef _WIN32	
+		int32_t recieved = recvfrom(s, buffer, len, 0, (SOCKADDR *)& senderAddr, &SenderAddrSize);
+#else
 		int32_t recieved = recvfrom(s, (void*)buffer, len, 0, (SOCKADDR *)& senderAddr, &SenderAddrSize);
+#endif
 
 		if(recieved == 0) {
 		  delete[] buffer;

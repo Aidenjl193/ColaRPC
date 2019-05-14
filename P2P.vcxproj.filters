@@ -36,6 +36,9 @@
     <ClInclude Include="RPCManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Serializer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Peer.cpp">
@@ -52,6 +55,9 @@
     </ClCompile>
     <ClCompile Include="RPCManager.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Serializer.cpp">
+      <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
