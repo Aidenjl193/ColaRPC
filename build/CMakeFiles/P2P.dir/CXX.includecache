@@ -10,20 +10,6 @@
 atomic
 -
 
-/Users/aiden/P2P/P2P.cpp
-iostream
--
-string
--
-Socket.h
-/Users/aiden/P2P/Socket.h
-RPCManager.h
-/Users/aiden/P2P/RPCManager.h
-TaskManager.h
-/Users/aiden/P2P/TaskManager.h
-typeinfo
--
-
 /Users/aiden/P2P/Peer.h
 winsock2.h
 -
@@ -38,24 +24,16 @@ netdb.h
 unistd.h
 -
 
-/Users/aiden/P2P/RPCManager.cpp
-RPCManager.h
 /Users/aiden/P2P/RPCManager.h
-Serializer.h
-/Users/aiden/P2P/Serializer.h
-
-/Users/aiden/P2P/RPCManager.h
-Vector
+vector
 -
 string
 -
 Socket.h
 /Users/aiden/P2P/Socket.h
-
-/Users/aiden/P2P/Serializer.cpp
-Serializer.h
-/Users/aiden/P2P/Serializer.h
-iostream
+typeinfo
+-
+typeindex
 -
 
 /Users/aiden/P2P/Serializer.h

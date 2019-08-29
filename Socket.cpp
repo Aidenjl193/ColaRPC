@@ -11,7 +11,7 @@ namespace P2P {
 	serializer.write = len;
 	int rpcID = 0;
 	serializer.Deserialize(&rpcID);
-	RPCManager::RaiseRPC(rpcID, data, serializer.write - 4);
+	//RPCManager::RaiseRPC(rpcID, data, serializer.write - 4);
   }
 
 	int Socket::GenerateUID() {
