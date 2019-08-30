@@ -111,8 +111,10 @@ namespace P2P {
 		//This bit needs re-multithreading :)
 		Serializer serializer;
 		serializer.buffer = buffer;
+		serializer.write = recieved;
 		int rpcID = 0;
 		serializer.Deserialize(&rpcID);
+		std::cout << "recieved: " << serializer.write;
 
 		Function func = std::get<0>(RPCs[RPCNames[rpcID]]);
 		func(&serializer);

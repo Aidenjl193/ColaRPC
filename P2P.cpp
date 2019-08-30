@@ -5,6 +5,7 @@
 #include <typeinfo>
 
 int print(std::string str) {
+  std::cout << "print func called!\n";
   std::cout << str;
   return 0;
 }

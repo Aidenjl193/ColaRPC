@@ -81,10 +81,7 @@ namespace P2P {
 
 			int rpcID = GetRPCID(name);
 			ser.Serialize(rpcID);//Need to serialize rpcid at front
-
 			SerializeArgs(&ser, Args...);
-
-			std::cout << "Sending RPC with ID: " << rpcID << " and peer ID: " << peerHandle << "\n";
 			Send((char*)&ser.buffer[0], ser.write, peerHandle);
 		}
 
