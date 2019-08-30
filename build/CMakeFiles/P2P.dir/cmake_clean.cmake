@@ -1,7 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/P2P.dir/P2P.cpp.o"
   "CMakeFiles/P2P.dir/Peer.cpp.o"
-  "CMakeFiles/P2P.dir/RPCManager.cpp.o"
   "CMakeFiles/P2P.dir/Socket.cpp.o"
   "CMakeFiles/P2P.dir/TaskManager.cpp.o"
   "CMakeFiles/P2P.dir/Serializer.cpp.o"

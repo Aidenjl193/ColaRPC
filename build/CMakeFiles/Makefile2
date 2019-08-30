@@ -71,7 +71,7 @@ CMAKE_BINARY_DIR = /Users/aiden/P2P/build
 CMakeFiles/P2P.dir/all:
 	$(MAKE) -f CMakeFiles/P2P.dir/build.make CMakeFiles/P2P.dir/depend
 	$(MAKE) -f CMakeFiles/P2P.dir/build.make CMakeFiles/P2P.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/aiden/P2P/build/CMakeFiles --progress-num=1,2,3,4,5,6,7 "Built target P2P"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/aiden/P2P/build/CMakeFiles --progress-num=1,2,3,4,5,6 "Built target P2P"
 .PHONY : CMakeFiles/P2P.dir/all
 
 # Include target in all.
@@ -81,7 +81,7 @@ all: CMakeFiles/P2P.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/P2P.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/aiden/P2P/build/CMakeFiles 7
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/aiden/P2P/build/CMakeFiles 6
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/P2P.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/aiden/P2P/build/CMakeFiles 0
 .PHONY : CMakeFiles/P2P.dir/rule

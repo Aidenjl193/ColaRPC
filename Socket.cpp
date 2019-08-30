@@ -12,12 +12,11 @@ namespace P2P {
 
   void ExecuteRPC(char* data, int len) {
 	Serializer serializer;
-	serializer.buffer = data + len - 4; //Read int from back
-	serializer.write = len;
+	serializer.buffer = data;
 	int rpcID = 0;
 	serializer.Deserialize(&rpcID);
 
-	std::cout << "RPCID " << rpcID;
+	std::cout << "RPCID " << rpcID << "\n";
   }
 
 	int Socket::GenerateUID() {
@@ -64,8 +63,6 @@ namespace P2P {
 #else
 		int32_t recieved = recvfrom(s, (void*)buffer, len, 0, (SOCKADDR *)& senderAddr, &SenderAddrSize);
 #endif
-
-		std::cout << "recieved!";
 
 		if(recieved == 0) {
 		  delete[] buffer;

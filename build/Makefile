@@ -177,33 +177,6 @@ Peer.cpp.s:
 	$(MAKE) -f CMakeFiles/P2P.dir/build.make CMakeFiles/P2P.dir/Peer.cpp.s
 .PHONY : Peer.cpp.s
 
-RPCManager.o: RPCManager.cpp.o
-
-.PHONY : RPCManager.o
-
-# target to build an object file
-RPCManager.cpp.o:
-	$(MAKE) -f CMakeFiles/P2P.dir/build.make CMakeFiles/P2P.dir/RPCManager.cpp.o
-.PHONY : RPCManager.cpp.o
-
-RPCManager.i: RPCManager.cpp.i
-
-.PHONY : RPCManager.i
-
-# target to preprocess a source file
-RPCManager.cpp.i:
-	$(MAKE) -f CMakeFiles/P2P.dir/build.make CMakeFiles/P2P.dir/RPCManager.cpp.i
-.PHONY : RPCManager.cpp.i
-
-RPCManager.s: RPCManager.cpp.s
-
-.PHONY : RPCManager.s
-
-# target to generate assembly for a file
-RPCManager.cpp.s:
-	$(MAKE) -f CMakeFiles/P2P.dir/build.make CMakeFiles/P2P.dir/RPCManager.cpp.s
-.PHONY : RPCManager.cpp.s
-
 Serializer.o: Serializer.cpp.o
 
 .PHONY : Serializer.o
@@ -300,9 +273,6 @@ help:
 	@echo "... Peer.o"
 	@echo "... Peer.i"
 	@echo "... Peer.s"
-	@echo "... RPCManager.o"
-	@echo "... RPCManager.i"
-	@echo "... RPCManager.s"
 	@echo "... Serializer.o"
 	@echo "... Serializer.i"
 	@echo "... Serializer.s"

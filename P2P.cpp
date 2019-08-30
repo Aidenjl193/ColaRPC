@@ -36,6 +36,7 @@ int main() {
 
   if(server) {
 	while(true) {
+	  std::cout << "loop!\n"; 
 	  socket.Recieve(); //process RPCs
 	}
   } else {
