@@ -54,10 +54,12 @@ namespace P2P {
 
 		//RPC SHIT
 		std::unordered_map<std::string, std::tuple<Function, int>> RPCs;
+		std::unordered_map<int, std::string> RPCNames;
 
 		template<class F>
 		void bindRPC(std::string const& name, F f) {
 			RPCs[name] = std::make_tuple(FunctionImpl<F>(std::move(f)), rpcCount);
+			RPCNames[rpcCount] = name;
 			rpcCount++;
 		}
 
