@@ -2,10 +2,14 @@
 
 #include <string>
 #include <stdlib.h>
+#include <tuple>
 #include "Peer.h"
 #include <map>
 #include "TaskManager.h"
 #include "Serializer.h"
+#include <unordered_map>
+#include "Function.h"
+#include "Value.h"
 
 #ifdef _WIN32						//Windows sockets
 	#include <WinSock2.h>
@@ -42,16 +46,54 @@ namespace P2P {
 
 		Socket(int port);
 
-	  int Send(const char* packet, int len, int peerHandle);
-	  void SendRPC(std::string RPC, Serializer* serializer, int peerHandle);
+		int Send(const char* packet, int len, int peerHandle);
 		int Recieve();
 		int GetPort();
 
 		int NewPeer(const char* IP, int port);
 
+		//RPC SHIT
+		std::unordered_map<std::string, std::tuple<Function, int>> RPCs;
+
+		template<class F>
+		void bindRPC(std::string const& name, F f) {
+			RPCs[name] = std::make_tuple(FunctionImpl<F>(std::move(f)), rpcCount);
+			rpcCount++;
+		}
+
+		template <typename A>
+		void SerializeArgs(const A& a) {}
+
+		//Recursively serialize the arguments
+		template <typename A, typename ...B>
+		void SerializeArgs(P2P::Serializer* serializer, const A& a, B&&... Args) {
+			serializer->Serialize(a);
+			SerializeArgs(serializer, Args...);
+		}
+
+		template <typename ...A>
+		void call(std::string name, int peerHandle, A... Args) {
+			char* data = (char*)malloc(PACKET_SIZE);
+			P2P::Serializer ser = P2P::Serializer();
+			ser.buffer = data;
+
+			int rpcID = GetRPCID(name);
+			ser.Serialize(rpcID);//Need to serialize rpcid at front
+
+			SerializeArgs(&ser, Args...);
+
+			std::cout << "Sending RPC with ID: " << rpcID << " and peer ID: " << peerHandle << "\n";
+			Send((char*)&ser.buffer[0], ser.write, peerHandle);
+		}
+
+		int GetRPCID(std::string RPC);
+
 	private:
 		sockaddr_in local;
 		SOCKET s;
+
+		//Needs a more robust method
+		int rpcCount = 0;
 
 		int GenerateUID();
 	};

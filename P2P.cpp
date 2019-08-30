@@ -4,14 +4,9 @@
 #include "TaskManager.h"
 #include <typeinfo>
 
-void print(char* data, int len) {
-  std::cout << "RPC Called!\n";
-  P2P::Serializer serializer;
-  serializer.buffer = data;
-  serializer.write = len;
-  std::string str = "";
-  serializer.Deserialize(&str);
+int print(std::string str) {
   std::cout << str;
+  return 0;
 }
 
 void DisplayMessage(char a, int b) {
@@ -24,6 +19,8 @@ int main() {
   P2P::TaskManager::InitializeThreads(4);
   
   P2P::Socket socket = P2P::Socket(0); //Bind socket to random port
+
+  socket.bindRPC("Print", &print);
   
   std::cout << "Socket bound on port: " << socket.GetPort() << "\n";
 
@@ -32,9 +29,6 @@ int main() {
   };
 
   bool server = true;
-
-  //Setup RPCS
-  //RPCManager::CreateRPC("Print", print);
 
   std::cout << "Server? 1/0\n";
 
@@ -61,12 +55,7 @@ int main() {
 		return 0;
 	  str += "\n";
 	  
-	  char* data = (char*)malloc(PACKET_SIZE);
-	  P2P::Serializer serializer;
-	  serializer.buffer = data;
-	  serializer.Serialize(str);
-	  socket.SendRPC("Print", &serializer, peerHandle);
-	  delete[] data;
+	  socket.call("Print", peerHandle, str);
 	  std::cin.get();
 	}
   }

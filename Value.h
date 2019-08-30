@@ -18,8 +18,7 @@ namespace P2P {
 		}
 
 		template<class T>
-		Value& operator=(T const& x)
-		{
+		Value& operator=(T const& x) {
 			value_ = x;
 			return *this;
 		}

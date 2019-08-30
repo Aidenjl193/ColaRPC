@@ -1,6 +1,11 @@
 #include "Socket.h"
 
 namespace P2P {
+	//RPC STUFF
+
+	//Map the rpc name to a tuple containing the function and its network ID (network id generation needs to be more robust)
+
+
 	bool operator==(const sockaddr_in& a, const sockaddr_in& b) { //Comparison operator for sockaddr_in
 		return memcmp(&a, &b, sizeof(sockaddr_in)) == 0;
 	}
@@ -11,7 +16,8 @@ namespace P2P {
 	serializer.write = len;
 	int rpcID = 0;
 	serializer.Deserialize(&rpcID);
-	//RPCManager::RaiseRPC(rpcID, data, serializer.write - 4);
+
+	std::cout << "RPCID " << rpcID;
   }
 
 	int Socket::GenerateUID() {
@@ -25,9 +31,9 @@ namespace P2P {
 	}
 
 	Socket::Socket(int port) {
-	  #ifdef _WIN32
-		WSAData data;
-		WSAStartup(MAKEWORD(2, 2), &data);
+		 #ifdef _WIN32
+			WSAData data;
+			WSAStartup(MAKEWORD(2, 2), &data);
 		#endif
 		local.sin_family = AF_INET;
 		local.sin_addr.s_addr = INADDR_ANY;
@@ -40,12 +46,9 @@ namespace P2P {
 		return sendto(s, packet, len, 0, (sockaddr *)&peers[peerHandle].address, sizeof(peers[peerHandle].address));
 	}
 
-  void Socket::SendRPC(std::string RPC, Serializer* serializer, int peerHandle) {
-	//int rpcID = RPCManager::GetRPCID(RPC);
-	//serializer->Serialize(rpcID);//Need to serialize rpcid at front
-
-	Send((char*)&serializer->buffer[0], serializer->write, peerHandle);
-  }
+	  int Socket::GetRPCID(std::string RPC) {
+		  return std::get<1>(RPCs[RPC]);
+	  }
 
 	int Socket::Recieve() { //Dish out messages to peers
 		sockaddr_in senderAddr;
@@ -57,10 +60,12 @@ namespace P2P {
 		int len = PACKET_SIZE;
 
 #ifdef _WIN32	
-		int32_t recieved = recvfrom(s, buffer, len, 0, (SOCKADDR *)& senderAddr, &SenderAddrSize);
+		int32_t recieved = recvfrom(s, buffer, len, 0, (SOCKADDR *)&senderAddr, &SenderAddrSize);
 #else
 		int32_t recieved = recvfrom(s, (void*)buffer, len, 0, (SOCKADDR *)& senderAddr, &SenderAddrSize);
 #endif
+
+		std::cout << "recieved!";
 
 		if(recieved == 0) {
 		  delete[] buffer;
@@ -97,7 +102,6 @@ namespace P2P {
 			//Call the onConnection Callback
 			(*onConnection)(IP, senderAddr.sin_port, UID);
 		}
-
 		//Run the RPC on the threadpool
 	    Task t;
   	    t.data = buffer;
