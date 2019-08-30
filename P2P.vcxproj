@@ -116,18 +116,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CopyableAtomic.h" />
+    <ClInclude Include="Function.h" />
+    <ClInclude Include="Functions.h" />
     <ClInclude Include="P2P.h" />
     <ClInclude Include="Peer.h" />
-    <ClInclude Include="RPCManager.h" />
     <ClInclude Include="Serializer.h" />
     <ClInclude Include="Socket.h" />
     <ClInclude Include="TaskManager.h" />
     <ClInclude Include="TSRingBuffer.h" />
+    <ClInclude Include="Value.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="P2P.cpp" />
     <ClCompile Include="Peer.cpp" />
-    <ClCompile Include="RPCManager.cpp" />
     <ClCompile Include="Serializer.cpp" />
     <ClCompile Include="Socket.cpp" />
     <ClCompile Include="TaskManager.cpp" />

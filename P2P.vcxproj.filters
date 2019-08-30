@@ -33,10 +33,16 @@
     <ClInclude Include="TaskManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RPCManager.h">
+    <ClInclude Include="Serializer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Serializer.h">
+    <ClInclude Include="Function.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Functions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Value.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -51,9 +57,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TaskManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RPCManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Serializer.cpp">

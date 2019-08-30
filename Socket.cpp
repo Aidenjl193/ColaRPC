@@ -41,8 +41,9 @@ namespace P2P {
 	}
 
   void Socket::SendRPC(std::string RPC, Serializer* serializer, int peerHandle) {
-	int rpcID = RPCManager::GetRPCID(RPC);
-	serializer->Serialize(rpcID);//Need to serialize rpcid at front
+	//int rpcID = RPCManager::GetRPCID(RPC);
+	//serializer->Serialize(rpcID);//Need to serialize rpcid at front
+
 	Send((char*)&serializer->buffer[0], serializer->write, peerHandle);
   }
 

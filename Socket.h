@@ -5,7 +5,6 @@
 #include "Peer.h"
 #include <map>
 #include "TaskManager.h"
-#include "RPCManager.h"
 #include "Serializer.h"
 
 #ifdef _WIN32						//Windows sockets
