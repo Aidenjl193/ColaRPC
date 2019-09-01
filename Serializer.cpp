@@ -68,7 +68,6 @@ bool Serializer::Deserialize(int* i) {
   void Serializer::Deserialize(std::string* str) {
 	int len = 0;
 	Deserialize(&len);
-	std::cout << "String Length: " << len << "\n";
 	std::string temp = "";
 	for(int i = 0; i < len; ++i) {
 	  temp += ReadByte();

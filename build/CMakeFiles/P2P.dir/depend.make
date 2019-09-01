@@ -28,7 +28,9 @@ CMakeFiles/P2P.dir/Socket.cpp.o: ../TaskManager.h
 CMakeFiles/P2P.dir/Socket.cpp.o: ../Value.h
 
 CMakeFiles/P2P.dir/TaskManager.cpp.o: ../CopyableAtomic.h
+CMakeFiles/P2P.dir/TaskManager.cpp.o: ../Serializer.h
 CMakeFiles/P2P.dir/TaskManager.cpp.o: ../TSRingBuffer.h
 CMakeFiles/P2P.dir/TaskManager.cpp.o: ../TaskManager.cpp
 CMakeFiles/P2P.dir/TaskManager.cpp.o: ../TaskManager.h
+CMakeFiles/P2P.dir/TaskManager.cpp.o: ../Value.h
 

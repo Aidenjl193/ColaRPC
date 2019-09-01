@@ -59,10 +59,10 @@ namespace P2P {
 				Task task = TaskManager::commandBuffer.Get();
 				TaskManager::getMtx.unlock();
 
-				task.function(task.data, task.len);//Run the job with the supplied params
+				task.func(&task.ser);//Run the job with the supplied params
 
 				//Free the memory
-				delete[] task.data;
+				free(task.ser.buffer);
 			}
 
 			//If there are no tasks kill the thread so we don't hog the CPU
@@ -77,6 +77,6 @@ namespace P2P {
 		if (t.joinable()) { // Shouldn't really happen
 			t.join();
 		}
-		t = std::thread([&]() {Work(); });
+		t = std::thread([&]() {Work();});
 	}
 }

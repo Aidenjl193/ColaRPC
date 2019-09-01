@@ -3,23 +3,9 @@
 namespace P2P {
 	//RPC STUFF
 
-	//Map the rpc name to a tuple containing the function and its network ID (network id generation needs to be more robust)
-
 	bool operator==(const sockaddr_in& a, const sockaddr_in& b) { //Comparison operator for sockaddr_in
 		return memcmp(&a, &b, sizeof(sockaddr_in)) == 0;
 	}
-
-  void ExecuteRPC(char* data, int len) {
-	Serializer serializer;
-	serializer.buffer = data;
-	int rpcID = 0;
-	serializer.Deserialize(&rpcID);
-
-	std::cout << "RPCID " << rpcID << "\n";
-
-	//Hacky way for now
-
-  }
 
 	int Socket::GenerateUID() {
 		int UID = 0;
@@ -32,7 +18,7 @@ namespace P2P {
 	}
 
 	Socket::Socket(int port) {
-		 #ifdef _WIN32
+	   #ifdef _WIN32
 			WSAData data;
 			WSAStartup(MAKEWORD(2, 2), &data);
 		#endif
@@ -67,7 +53,7 @@ namespace P2P {
 #endif
 
 		if(recieved == 0) {
-		  delete[] buffer;
+		  free(buffer);
 		  return 0;
 		}
 
@@ -102,22 +88,17 @@ namespace P2P {
 			(*onConnection)(IP, senderAddr.sin_port, UID);
 		}
 		//Run the RPC on the threadpool
-	    //Task t;
-  		//t.data = buffer;
-	    //t.len = recieved;
-	    //t.function = ExecuteRPC;
-	    //TaskManager::AssignTask(t);
-		
-		//This bit needs re-multithreading :)
+	   
 		Serializer serializer;
 		serializer.buffer = buffer;
 		serializer.write = recieved;
 		int rpcID = 0;
 		serializer.Deserialize(&rpcID);
-		std::cout << "recieved: " << serializer.write;
 
-		Function func = std::get<0>(RPCs[RPCNames[rpcID]]);
-		func(&serializer);
+		Task t;
+		t.func = std::get<0>(RPCs[RPCNames[rpcID]]);
+		t.ser = serializer;
+		TaskManager::AssignTask(t);
 
 		return recieved;
 	}

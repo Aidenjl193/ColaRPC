@@ -1,11 +1,10 @@
 #include <iostream>
 #include <string>
+#include <typeinfo>
 #include "Socket.h"
 #include "TaskManager.h"
-#include <typeinfo>
 
 int print(std::string str) {
-  std::cout << "print func called!\n";
   std::cout << str;
   return 0;
 }
@@ -37,7 +36,6 @@ int main() {
 
   if(server) {
 	while(true) {
-	  std::cout << "loop!\n"; 
 	  socket.Recieve(); //process RPCs
 	}
   } else {

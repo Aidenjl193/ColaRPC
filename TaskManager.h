@@ -6,13 +6,18 @@
 #include <map>
 #include <mutex>
 #include "TSRingBuffer.h"
+#include "Serializer.h"
+#include "Value.h"
+
+
 
 namespace P2P {
+  typedef std::function<Value(P2P::Serializer*)> Function;
+  
 	struct Task {
 	public:
-	  void(*function)(char*, int);
-	  char* data;
-	  int len;
+	  Function func;
+	  Serializer ser;
 	};
 
 	class TaskThread {
