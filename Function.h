@@ -15,7 +15,7 @@ namespace P2P {
 		template<std::size_t... I>
 		Value call(P2P::Serializer* ser, std::vector<Value>& args, std::integer_sequence<std::size_t, I...>) {
 			Value value;
-			//Load the sig into a tuple and grab the ith element's type for casting
+			//Load the sig into a tuple and grab the Ith element's type for casting
 			value = ptr(args[I].deserialize< typename std::tuple_element<I, std::tuple<T...>>::type >(ser)...);
 			return value;
 		}

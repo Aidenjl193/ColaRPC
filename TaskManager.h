@@ -16,7 +16,7 @@ namespace P2P {
   
 	struct Task {
 	public:
-	  Function* func; //Doesn't like being memcopied so we hold a pointer, not sure how well this will pan out
+	  Function* func;
 	  Serializer ser;
 	};
 
