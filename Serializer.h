@@ -39,7 +39,6 @@ namespace P2P {
 
 	//char
 	void Serialize(char c);
-
 	void Deserialize(char* c);
 
 	
