@@ -72,6 +72,7 @@ namespace P2P {
 			T t = T();
 			if (read == write)																					//Determine if there's anything to read might just remove this as it should be checked before being called
 				return t;
+			std::cout << granularity << "\n";
 			memcpy(&t, buffer + read, granularity);
 			read += granularity;
 			read -= length * (read > length);																	//If we enter the mirrored buffer, loop back into the first(should probably just mod it for performance)

@@ -21,6 +21,15 @@ int main() {
   P2P::Socket socket = P2P::Socket(0); //Bind socket to random port
 
   socket.bindRPC("Print", &print);
+
+  P2P::Serializer serializer;
+  serializer.buffer = (char*)malloc(500);
+  serializer.Serialize("yo doggy!\n");
+  P2P::Task t;
+  P2P::Function func = (P2P::Function)P2P::FunctionImpl<int(*)(std::string)>(std::move(&print));
+  t.func = &func;
+  t.ser = serializer;
+  P2P::TaskManager::AssignTask(t);
   
   std::cout << "Socket bound on port: " << socket.GetPort() << "\n";
 

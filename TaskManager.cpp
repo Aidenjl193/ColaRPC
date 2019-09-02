@@ -59,7 +59,7 @@ namespace P2P {
 				Task task = TaskManager::commandBuffer.Get();
 				TaskManager::getMtx.unlock();
 
-				task.func(&task.ser);//Run the job with the supplied params
+				(*task.func)(&task.ser);//Run the job with the supplied params
 
 				//Free the memory
 				free(task.ser.buffer);

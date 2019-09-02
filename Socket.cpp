@@ -96,7 +96,7 @@ namespace P2P {
 		serializer.Deserialize(&rpcID);
 
 		Task t;
-		t.func = std::get<0>(RPCs[RPCNames[rpcID]]);
+		t.func = &std::get<0>(RPCs[RPCNames[rpcID]]);
 		t.ser = serializer;
 		TaskManager::AssignTask(t);
 
