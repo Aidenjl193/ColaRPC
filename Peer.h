@@ -11,7 +11,7 @@
 #endif
 
 #define BUFFER_SIZE 131072 //Needs experimenting
-namespace P2P{
+namespace ColaRPC {
 	class Peer {
 	public:
 		sockaddr_in address;

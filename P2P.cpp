@@ -15,16 +15,16 @@ int add(int a, int b) {
 }
 
 int main() {
-  P2P::TaskManager::initializeThreads(4);
+  ColaRPC::TaskManager::initializeThreads(4);
   
-  P2P::Socket socket = P2P::Socket(0); //Bind socket to random port
+  ColaRPC::Socket sock = ColaRPC::Socket(0); //Bind sock to random port
 
-  socket.bindRPC("print", &print);
-  socket.bindRPC("add", &add);
+  sock.bindRPC("print", &print);
+  sock.bindRPC("add", &add);
   
-  std::cout << "Socket bound on port: " << socket.getPort() << "\n";
+  std::cout << "Socket bound on port: " << sock.getPort() << "\n";
 
-  socket.onConnection = [](const char* ip, int port, int peerHandle) { //On connection callback
+  sock.onConnection = [](const char* ip, int port, int peerHandle) { //On connection callback
   	std::cout << "New peer " << peerHandle << " connected with IP: " << ip << " and port: " << port << "\n";
   };
 
@@ -36,7 +36,7 @@ int main() {
 
   if(server) {
 	while(true) {
-	  socket.recieve(); //process RPCs
+	  sock.recieve(); //process RPCs
 	}
   } else {
 	const char*  IP = "127.0.0.1";
@@ -46,15 +46,15 @@ int main() {
 	std::cin >> port;
 
 	std::cout << "Connecting to host at: " << IP << ":" << port << "\n";
-	int peerHandle = socket.newPeer((char*)&IP, port);
+	int peerHandle = sock.newPeer((char*)&IP, port);
 	
 	while(true) {
 	  std::cout << "Enter message!\n";
 	  std::string str;
 	  std::cin >> str;
 	  str += "\n";
-	  socket.call("print", peerHandle, str);
-	  socket.call("add", peerHandle, 10, 2);
+	  sock.call("print", peerHandle, str);
+	  sock.call("add", peerHandle, 10, 2);
 	  std::cin.get();
 	}
   }

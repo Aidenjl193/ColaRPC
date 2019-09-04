@@ -1,7 +1,7 @@
 #include "Serializer.h"
 #include <iostream>
 
-namespace P2P {
+namespace ColaRPC {
   
   void Serializer::writeByte(char b) {
 	buffer[write] = b;

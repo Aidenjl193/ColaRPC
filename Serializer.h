@@ -2,7 +2,7 @@
 #include <vector>
 #include <string>
 
-namespace P2P {
+namespace ColaRPC {
   class Serializer {
   public:
 	
@@ -40,8 +40,5 @@ namespace P2P {
 	//char
 	void serialize(char c);
 	void deserialize(char* c);
-
-	
-	
   };
 }

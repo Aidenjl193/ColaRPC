@@ -8,7 +8,7 @@
 #endif
 #include"CopyableAtomic.h"
 
-namespace P2P {
+namespace ColaRPC {
 	template< class T >
 	class TSRingBuffer {
 	public:

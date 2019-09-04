@@ -1,7 +1,7 @@
 #pragma once
 #include<atomic>
 
-namespace P2P {
+namespace ColaRPC {
 	template<class T>
 	class CopyableAtomic : public std::atomic<T> {
 	public:

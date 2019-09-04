@@ -4,8 +4,8 @@
 #include "Value.h"
 #include "Serializer.h"
 
-namespace P2P {
-	typedef std::function<Value(P2P::Serializer*)> Function;
+namespace ColaRPC {
+	typedef std::function<Value(ColaRPC::Serializer*)> Function;
 	template<class F> class FunctionImpl;
 
 	template<class R, class... T>
@@ -13,7 +13,7 @@ namespace P2P {
 		R(*ptr)(T... args);
 
 		template<std::size_t... I>
-		Value call(P2P::Serializer* ser, std::vector<Value>& args, std::integer_sequence<std::size_t, I...>) {
+		Value call(ColaRPC::Serializer* ser, std::vector<Value>& args, std::integer_sequence<std::size_t, I...>) {
 			Value value;
 			//Load the sig into a tuple and grab the Ith element's type for casting
 			value = ptr(args[I].deserialize< typename std::tuple_element<I, std::tuple<T...>>::type >(ser)...);
@@ -23,7 +23,7 @@ namespace P2P {
 		//constructor
 		FunctionImpl(R(*ptr)(T... args)) : ptr(ptr) {}
 
-		Value operator()(P2P::Serializer* ser) {
+		Value operator()(ColaRPC::Serializer* ser) {
 			constexpr std::size_t count = std::tuple_size<std::tuple<T...>>::value;
 			std::vector<Value> args(count);
 			return call(ser, args, std::make_integer_sequence<std::size_t, std::tuple_size<std::tuple<T...>>::value>());

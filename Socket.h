@@ -1,5 +1,4 @@
 #pragma once
-
 #include <string>
 #include <stdlib.h>
 #include <tuple>
@@ -32,7 +31,7 @@
 	#define STDCALL 
 #endif
 
-namespace P2P {
+namespace ColaRPC {
 	class Socket {
 	public:
 		//Callbacks
@@ -68,7 +67,7 @@ namespace P2P {
 
 		//Recursively serialize the arguments
 		template <typename A, typename ...B>
-		void serializeArgs(P2P::Serializer* serializer, const A& a, B&&... Args) {
+		void serializeArgs(ColaRPC::Serializer* serializer, const A& a, B&&... Args) {
 			serializer->serialize(a);
 			serializeArgs(serializer, Args...);
 		}
@@ -76,7 +75,7 @@ namespace P2P {
 		template <typename ...A>
 		void call(std::string name, int peerHandle, A... Args) {
 			char* data = (char*)malloc(PACKET_SIZE);
-			P2P::Serializer ser = P2P::Serializer();
+			ColaRPC::Serializer ser = ColaRPC::Serializer();
 			ser.buffer = data;
 
 			int rpcID = getRpcID(name);

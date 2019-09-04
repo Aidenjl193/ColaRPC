@@ -11,8 +11,8 @@
 
 
 
-namespace P2P {
-  typedef std::function<Value(P2P::Serializer*)> Function;
+namespace ColaRPC {
+  typedef std::function<Value(ColaRPC::Serializer*)> Function;
   
 	struct Task {
 	public:

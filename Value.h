@@ -1,7 +1,7 @@
 #pragma once
 #include "Serializer.h"
 
-namespace P2P {
+namespace ColaRPC {
 	class Value {
 		long value_;
 	public:
@@ -11,7 +11,7 @@ namespace P2P {
 		}
 
 		template<class T>
-		T deserialize(P2P::Serializer* ser) {
+		T deserialize(ColaRPC::Serializer* ser) {
 			T t = T();
 			ser->deserialize(&t);
 			return t;

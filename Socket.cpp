@@ -1,6 +1,6 @@
 #include "Socket.h"
 
-namespace P2P {
+namespace ColaRPC {
 	//RPC STUFF
 
 	bool operator==(const sockaddr_in& a, const sockaddr_in& b) { //Comparison operator for sockaddr_in

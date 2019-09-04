@@ -1,6 +1,6 @@
 #include "TaskManager.h"
 
-namespace P2P {
+namespace ColaRPC {
 	//Initialize static stuff
 	std::vector<TaskThread*> TaskManager::threads;
 	std::mutex TaskManager::putMtx;

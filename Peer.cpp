@@ -1,6 +1,6 @@
 #include "Peer.h"
 
-namespace P2P {
+namespace ColaRPC {
 	Peer::Peer(const char* destinationIP, int destinationPort) {
 		address.sin_family = AF_INET;
 		unsigned long* destAddr = new unsigned long;
