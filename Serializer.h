@@ -6,7 +6,7 @@ namespace P2P {
   class Serializer {
   public:
 	
-	bool is_big_endian() {
+	bool isBigEndian() {
 	    union {
     	    uint32_t i;
     		 char c[4];
@@ -17,29 +17,29 @@ namespace P2P {
 	int write = 0;
 	int read = 0;
 
-	void WriteByte(char b);
-	char ReadByte();
+	void writeByte(char b);
+	char readByte();
 
 	//Recursive
-	void Serialize(Serializer s);
+	void serialize(Serializer s);
 	
 	//int
-	void Serialize(int i);
+	void serialize(int i);
 
-	bool Deserialize(int* i);
+	bool deserialize(int* i);
 
 	//float
-	void Serialize(float f);
-	void Deserialize(float * f);
+	void serialize(float f);
+	void deserialize(float * f);
 	
 	//String
-	void Serialize(std::string str);
+	void serialize(std::string str);
 
-	void Deserialize(std::string* str);
+	void deserialize(std::string* str);
 
 	//char
-	void Serialize(char c);
-	void Deserialize(char* c);
+	void serialize(char c);
+	void deserialize(char* c);
 
 	
 	

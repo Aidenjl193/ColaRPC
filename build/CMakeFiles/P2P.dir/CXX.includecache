@@ -48,12 +48,6 @@ netdb.h
 unistd.h
 -
 
-/Users/aiden/P2P/Serializer.cpp
-Serializer.h
-/Users/aiden/P2P/Serializer.h
-iostream
--
-
 /Users/aiden/P2P/Serializer.h
 vector
 -

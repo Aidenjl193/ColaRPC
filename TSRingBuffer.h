@@ -19,7 +19,7 @@ namespace P2P {
 		CopyableAtomic<int>			write;
 		int  						granularity;
 
-		int InitializeBuffer(int size) {
+		int initializeBuffer(int size) {
 			granularity = sizeof(T);
 #ifdef _WIN32
 			SYSTEM_INFO si;
@@ -54,12 +54,12 @@ namespace P2P {
 			return size;
 		}
 
-		void Delete() {
+		void deleteBuffer() {
 			delete[] buffer;
 			//Add ‘-lrt’ to your LDFLAGS and remember to shm_unlink() it when you’re done. Everything else stays the same, including the performance.
 		}
 
-		bool Put(T* element) {
+		bool put(T* element) {
 			if ((write < read && write + granularity >= read) || write + granularity - length >= read)			//Make sure we don't 'lap' or hit the read pointer, this would cause undefined behavior
 				return false;
 			memcpy(buffer + write, element, granularity);
@@ -68,7 +68,7 @@ namespace P2P {
 			return true;
 		}
 
-		T Get() {
+		T get() {
 			T t = T();
 			if (read == write)																					//Determine if there's anything to read might just remove this as it should be checked before being called
 				return t;
@@ -78,11 +78,11 @@ namespace P2P {
 			return t;
 		}
 
-		void Reset() {
+		void reset() {
 			read = write;
 		}
 
-		inline bool CanGet() {
+		inline bool canGet() {
 			return read != write;
 		}
 	};

@@ -46,31 +46,31 @@ namespace P2P {
 
 		Socket(int port);
 
-		int Send(const char* packet, int len, int peerHandle);
-		int Recieve();
-		int GetPort();
+		int send(const char* packet, int len, int peerHandle);
+		int recieve();
+		int getPort();
 
-		int NewPeer(const char* IP, int port);
+		int newPeer(const char* IP, int port);
 
 		//RPC SHIT
-		std::unordered_map<std::string, std::tuple<Function, int>> RPCs;
-		std::unordered_map<int, std::string> RPCNames;
+		std::unordered_map<std::string, std::tuple<Function, int>> rpcs;
+		std::unordered_map<int, std::string> rpcNames;
 
 		template<class F>
 		void bindRPC(std::string const& name, F f) {
-			RPCs[name] = std::make_tuple(FunctionImpl<F>(std::move(f)), rpcCount);
-			RPCNames[rpcCount] = name;
+			rpcs[name] = std::make_tuple(FunctionImpl<F>(std::move(f)), rpcCount);
+			rpcNames[rpcCount] = name;
 			rpcCount++;
 		}
 
 		template <typename A>
-		void SerializeArgs(const A& a) {}
+		void serializeArgs(const A& a) {}
 
 		//Recursively serialize the arguments
 		template <typename A, typename ...B>
-		void SerializeArgs(P2P::Serializer* serializer, const A& a, B&&... Args) {
-			serializer->Serialize(a);
-			SerializeArgs(serializer, Args...);
+		void serializeArgs(P2P::Serializer* serializer, const A& a, B&&... Args) {
+			serializer->serialize(a);
+			serializeArgs(serializer, Args...);
 		}
 
 		template <typename ...A>
@@ -79,13 +79,13 @@ namespace P2P {
 			P2P::Serializer ser = P2P::Serializer();
 			ser.buffer = data;
 
-			int rpcID = GetRPCID(name);
-			ser.Serialize(rpcID);//Need to serialize rpcid at front
-			SerializeArgs(&ser, Args...);
-			Send((char*)&ser.buffer[0], ser.write, peerHandle);
+			int rpcID = getRpcID(name);
+			ser.serialize(rpcID); //Need to serialize rpcid at front
+			serializeArgs(&ser, Args...);
+			send((char*)&ser.buffer[0], ser.write, peerHandle);
 		}
 
-		int GetRPCID(std::string RPC);
+		int getRpcID(std::string RPC);
 
 	private:
 		sockaddr_in local;
@@ -94,6 +94,6 @@ namespace P2P {
 		//Needs a more robust method
 		int rpcCount = 0;
 
-		int GenerateUID();
+		int generateUID();
 	};
 }

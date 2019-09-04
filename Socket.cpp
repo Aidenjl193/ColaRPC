@@ -7,7 +7,7 @@ namespace P2P {
 		return memcmp(&a, &b, sizeof(sockaddr_in)) == 0;
 	}
 
-	int Socket::GenerateUID() {
+	int Socket::generateUID() {
 		int UID = 0;
 		bool isUnique = false;
 		while (!isUnique) {
@@ -29,15 +29,15 @@ namespace P2P {
 		bind(s, (sockaddr *)&local, sizeof(local));
 	}
 
-  int Socket::Send(const char* packet, int len, int peerHandle) {
+  int Socket::send(const char* packet, int len, int peerHandle) {
 		return sendto(s, packet, len, 0, (sockaddr *)&peers[peerHandle].address, sizeof(peers[peerHandle].address));
 	}
 
-	  int Socket::GetRPCID(std::string RPC) {
-		  return std::get<1>(RPCs[RPC]);
+	  int Socket::getRpcID(std::string RPC) {
+		  return std::get<1>(rpcs[RPC]);
 	  }
 
-	int Socket::Recieve() { //Dish out messages to peers
+	int Socket::recieve() { //Dish out messages to peers
 		sockaddr_in senderAddr;
 		socklen_t SenderAddrSize = sizeof(sockaddr_in);
 
@@ -76,7 +76,7 @@ namespace P2P {
 			}
 
 			//Generate a unique handle to reference the peer
-			int UID = GenerateUID();
+			int UID = generateUID();
 
 			Peer newPeer = Peer(senderAddr);
 			newPeer.handle = UID;
@@ -93,24 +93,24 @@ namespace P2P {
 		serializer.buffer = buffer;
 		serializer.write = recieved;
 		int rpcID = 0;
-		serializer.Deserialize(&rpcID);
+		serializer.deserialize(&rpcID);
 
 		Task t;
-		t.func = &std::get<0>(RPCs[RPCNames[rpcID]]);
+		t.func = &std::get<0>(rpcs[rpcNames[rpcID]]);
 		t.ser = serializer;
-		TaskManager::AssignTask(t);
+		TaskManager::assignTask(t);
 
 		return recieved;
 	}
 
-	int Socket::GetPort() {
+	int Socket::getPort() {
 		socklen_t len = sizeof(local);
 		getsockname(s, (sockaddr *)&local, &len);
 		return ntohs(local.sin_port);
 	}
 
-	int Socket::NewPeer(const char* IP, int port) {
-		int peerHandle = GenerateUID();
+	int Socket::newPeer(const char* IP, int port) {
+		int peerHandle = generateUID();
 		Peer newPeer = Peer(IP, port);
 		newPeer.handle = peerHandle;
 		peers[peerHandle] = newPeer;

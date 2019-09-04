@@ -33,9 +33,9 @@ namespace P2P {
 		volatile bool threadEnabled = false;
 
 		//Member functions
-		void MakeThread();
+		void makeThread();
 
-		void Work();
+		void work();
 	};
 
 
@@ -57,8 +57,8 @@ namespace P2P {
 
 		//Member functions
 
-		static void InitializeThreads(int amt);
+		static void initializeThreads(int amt);
 
-		static void AssignTask(Task t);
+		static void assignTask(Task t);
 	};
 }

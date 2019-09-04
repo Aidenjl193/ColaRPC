@@ -14,24 +14,24 @@ namespace P2P {
 		}
 	}
 
-	void TaskManager::InitializeThreads(int amt) {
-		commandBuffer.InitializeBuffer(1);
+	void TaskManager::initializeThreads(int amt) {
+		commandBuffer.initializeBuffer(1);
 		//Initialize threads
 		for (int i = 0; i < amt; ++i) {
 			threads.push_back(new TaskThread());
 		}
 	}
 
-	void TaskManager::AssignTask(Task t) {
+	void TaskManager::assignTask(Task t) {
 		putMtx.lock();
-		commandBuffer.Put(&t);
+		commandBuffer.put(&t);
 		putMtx.unlock();
 
 		//Cycle through each thread in the pool
 		for (auto&& thread : threads) {
 			//If the thread currently isn't running anything; start it
 			if (!thread->threadEnabled) {
-				thread->MakeThread();
+				thread->makeThread();
 			}
 		}
 	}
@@ -42,21 +42,21 @@ namespace P2P {
 		t.join();
 	}
 
-	void TaskThread::Work() {
+	void TaskThread::work() {
 		threadEnabled = true;
 
 		//The main logic of our threads
 		while (threadEnabled) {
-			while (TaskManager::commandBuffer.CanGet()) {
+			while (TaskManager::commandBuffer.canGet()) {
 				TaskManager::getMtx.lock();
 
-				if (!TaskManager::commandBuffer.CanGet()) { //Make sure another thread hasn't claimed the task
+				if (!TaskManager::commandBuffer.canGet()) { //Make sure another thread hasn't claimed the task
 					TaskManager::getMtx.unlock();
 					threadEnabled = false;
 					return;
 				}
 
-				Task task = TaskManager::commandBuffer.Get();
+				Task task = TaskManager::commandBuffer.get();
 				TaskManager::getMtx.unlock();
 
 				(*task.func)(&task.ser);//Run the job with the supplied params
@@ -66,17 +66,17 @@ namespace P2P {
 			}
 
 			//If there are no tasks kill the thread so we don't hog the CPU
-			if (!TaskManager::commandBuffer.CanGet()) {
+			if (!TaskManager::commandBuffer.canGet()) {
 				threadEnabled = false;
 				return;
 			}
 		}
 	}
 
-	void TaskThread::MakeThread() {
+	void TaskThread::makeThread() {
 		if (t.joinable()) { // Shouldn't really happen
 			t.join();
 		}
-		t = std::thread([&]() {Work();});
+		t = std::thread([&]() {work();});
 	}
 }

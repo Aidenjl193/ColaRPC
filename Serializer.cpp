@@ -3,12 +3,12 @@
 
 namespace P2P {
   
-  void Serializer::WriteByte(char b) {
+  void Serializer::writeByte(char b) {
 	buffer[write] = b;
 	write++;
   }
 
-  char Serializer::ReadByte() {
+  char Serializer::readByte() {
 	if(read <= write) {
 	  char data = buffer[read];
 	  read++;
@@ -18,70 +18,70 @@ namespace P2P {
   }
 
   //recursive
-  void Serializer::Serialize(Serializer s) {
+  void Serializer::serialize(Serializer s) {
 	for(int i = 0; i < s.write; ++i) {
-	  WriteByte(s.ReadByte());
+	  writeByte(s.readByte());
 	}
   }
   
 // int
-void Serializer::Serialize(int i) {
+void Serializer::serialize(int i) {
   char* data = (char*)&i;
-  if(is_big_endian()) {
-	WriteByte(data[3]);
-	WriteByte(data[2]);
-	WriteByte(data[1]);
-	WriteByte(data[0]);
+  if(isBigEndian()) {
+	writeByte(data[3]);
+	writeByte(data[2]);
+	writeByte(data[1]);
+	writeByte(data[0]);
   }else {
-  WriteByte(data[0]);
-  WriteByte(data[1]);
-  WriteByte(data[2]);
-  WriteByte(data[3]);
+  writeByte(data[0]);
+  writeByte(data[1]);
+  writeByte(data[2]);
+  writeByte(data[3]);
   }
 }
 
-bool Serializer::Deserialize(int* i) {
+bool Serializer::deserialize(int* i) {
   char* data = (char*)i;
-  if(is_big_endian()) {
-	data[3] = ReadByte();
-	data[2] = ReadByte();
-	data[1] = ReadByte();
-	data[0] = ReadByte();
+  if(isBigEndian()) {
+	data[3] = readByte();
+	data[2] = readByte();
+	data[1] = readByte();
+	data[0] = readByte();
   }else {
-	data[0] = ReadByte();
-	data[1] = ReadByte();
-	data[2] = ReadByte();
-	data[3] = ReadByte();
+	data[0] = readByte();
+	data[1] = readByte();
+	data[2] = readByte();
+	data[3] = readByte();
   }
   return true;
 }
 
 // string
 
-  void Serializer::Serialize(std::string str) {
-	Serialize((int)str.length());
+  void Serializer::serialize(std::string str) {
+	serialize((int)str.length());
 	for(int i = 0; i < str.length(); ++i) {
-	  WriteByte(str[i]);
+	  writeByte(str[i]);
 	}
   }
 
-  void Serializer::Deserialize(std::string* str) {
+  void Serializer::deserialize(std::string* str) {
 	int len = 0;
-	Deserialize(&len);
+	deserialize(&len);
 	std::string temp = "";
 	for(int i = 0; i < len; ++i) {
-	  temp += ReadByte();
+	  temp += readByte();
 	}
 	*str = temp;
   }
 
   // char
 
-  void Serializer::Serialize(char c) {
-	WriteByte(c);
+  void Serializer::serialize(char c) {
+	writeByte(c);
   }
 
-  void Serializer::Deserialize(char* c) {
-	*c = ReadByte();
+  void Serializer::deserialize(char* c) {
+	*c = readByte();
   }
 }

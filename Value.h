@@ -13,7 +13,7 @@ namespace P2P {
 		template<class T>
 		T deserialize(P2P::Serializer* ser) {
 			T t = T();
-			ser->Deserialize(&t);
+			ser->deserialize(&t);
 			return t;
 		}
 
