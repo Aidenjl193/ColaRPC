@@ -2,11 +2,14 @@
 #include <string>
 #include <stdlib.h>
 #include <tuple>
-#include "Peer.h"
+#include <unordered_map>
 #include <map>
+#include <future>
+#include <any>
+#include <memory>
+#include "Peer.h"
 #include "TaskManager.h"
 #include "Serializer.h"
-#include <unordered_map>
 #include "Function.h"
 #include "Value.h"
 
@@ -72,16 +75,31 @@ namespace ColaRPC {
 			serializeArgs(serializer, Args...);
 		}
 
-		template <typename ...A>
-		void call(std::string name, int peerHandle, A... Args) {
-			char* data = (char*)malloc(PACKET_SIZE);
+	  //Might be worth threadsafing this? Need to think of use cases
+	  template <typename ...A>
+	  std::future<Value> call(std::string name, int peerHandle, A... Args) {
+		char* data = (char*)malloc(PACKET_SIZE); 
 			ColaRPC::Serializer ser = ColaRPC::Serializer();
 			ser.buffer = data;
 
 			int rpcID = getRpcID(name);
-			ser.serialize(rpcID); //Need to serialize rpcid at front
+
+			uint32_t callID = getCallID();
+
+			ser.serialize(rpcID);
+			ser.serialize(callID);
+			
 			serializeArgs(&ser, Args...);
 			send((char*)&ser.buffer[0], ser.write, peerHandle);
+			free(data);
+
+			//Make a shared pointer of the promise so when the response is sent back
+			//We can un-sleep the thread if any are waiting for the return value
+			
+			auto promise = std::make_shared<std::promise<Value>>();
+			callPromises[callID] = promise;
+
+			return promise->get_future();
 		}
 
 		int getRpcID(std::string RPC);
@@ -92,6 +110,14 @@ namespace ColaRPC {
 
 		//Needs a more robust method
 		int rpcCount = 0;
+
+	  uint32_t callID = 0;
+
+	  std::unordered_map<uint32_t, std::shared_ptr<std::promise<Value>>> callPromises;
+
+	  int getCallID() {
+		return ++callID;
+	  }
 
 		int generateUID();
 	};

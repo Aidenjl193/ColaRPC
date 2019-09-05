@@ -93,8 +93,12 @@ namespace ColaRPC {
 		serializer.buffer = buffer;
 		serializer.write = recieved;
 		int rpcID = 0;
+		uint32_t callID = 0;
+		
 		serializer.deserialize(&rpcID);
-
+        serializer.deserialize(&callID);
+		std::cout << callID << "\n";
+		
 		Task t;
 		t.func = &std::get<0>(rpcs[rpcNames[rpcID]]);
 		t.ser = serializer;

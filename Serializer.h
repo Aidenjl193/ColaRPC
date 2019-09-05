@@ -25,8 +25,11 @@ namespace ColaRPC {
 	
 	//int
 	void serialize(int i);
-
 	bool deserialize(int* i);
+
+	//uint32
+	void serialize(uint32_t i);
+	bool deserialize(uint32_t* i);
 
 	//float
 	void serialize(float f);

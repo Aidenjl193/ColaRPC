@@ -19,7 +19,7 @@ namespace ColaRPC {
 
 		template<class T>
 		Value& operator=(T const& x) {
-			value_ = x;
+		  value_ = x;
 			return *this;
 		}
 	};
