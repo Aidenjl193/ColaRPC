@@ -5,13 +5,13 @@
 #include <unordered_map>
 #include <map>
 #include <future>
-#include <any>
 #include <memory>
 #include "Peer.h"
 #include "TaskManager.h"
 #include "Serializer.h"
 #include "Function.h"
 #include "Value.h"
+#include "Future.h"
 
 #ifdef _WIN32						//Windows sockets
 	#include <WinSock2.h>
@@ -77,7 +77,7 @@ namespace ColaRPC {
 
 	  //Might be worth threadsafing this? Need to think of use cases
 	  template <typename ...A>
-	  std::future<Value> call(std::string name, int peerHandle, A... Args) {
+	  Future call(std::string name, int peerHandle, A... Args) {
 		char* data = (char*)malloc(PACKET_SIZE); 
 			ColaRPC::Serializer ser = ColaRPC::Serializer();
 			ser.buffer = data;
@@ -95,11 +95,11 @@ namespace ColaRPC {
 
 			//Make a shared pointer of the promise so when the response is sent back
 			//We can un-sleep the thread if any are waiting for the return value
-			
 			auto promise = std::make_shared<std::promise<Value>>();
 			callPromises[callID] = promise;
 
-			return promise->get_future();
+			Future future = Future(promise->get_future());
+			return future;
 		}
 
 		int getRpcID(std::string RPC);

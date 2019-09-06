@@ -97,7 +97,8 @@ namespace ColaRPC {
 		
 		serializer.deserialize(&rpcID);
         serializer.deserialize(&callID);
-		std::cout << callID << "\n";
+
+		
 		
 		Task t;
 		t.func = &std::get<0>(rpcs[rpcNames[rpcID]]);

@@ -3,6 +3,7 @@
 
 CMakeFiles/P2P.dir/P2P.cpp.o: ../CopyableAtomic.h
 CMakeFiles/P2P.dir/P2P.cpp.o: ../Function.h
+CMakeFiles/P2P.dir/P2P.cpp.o: ../Future.h
 CMakeFiles/P2P.dir/P2P.cpp.o: ../P2P.cpp
 CMakeFiles/P2P.dir/P2P.cpp.o: ../Peer.h
 CMakeFiles/P2P.dir/P2P.cpp.o: ../Serializer.h
@@ -19,6 +20,7 @@ CMakeFiles/P2P.dir/Serializer.cpp.o: ../Serializer.h
 
 CMakeFiles/P2P.dir/Socket.cpp.o: ../CopyableAtomic.h
 CMakeFiles/P2P.dir/Socket.cpp.o: ../Function.h
+CMakeFiles/P2P.dir/Socket.cpp.o: ../Future.h
 CMakeFiles/P2P.dir/Socket.cpp.o: ../Peer.h
 CMakeFiles/P2P.dir/Socket.cpp.o: ../Serializer.h
 CMakeFiles/P2P.dir/Socket.cpp.o: ../Socket.cpp
