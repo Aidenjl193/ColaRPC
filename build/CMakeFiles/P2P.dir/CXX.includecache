@@ -116,6 +116,10 @@ fcntl.h
 CopyableAtomic.h
 /Users/aiden/P2P/CopyableAtomic.h
 
+/Users/aiden/P2P/TaskManager.cpp
+TaskManager.h
+/Users/aiden/P2P/TaskManager.h
+
 /Users/aiden/P2P/TaskManager.h
 cstdlib
 -

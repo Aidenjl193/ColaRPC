@@ -55,12 +55,13 @@ namespace ColaRPC {
 		int newPeer(const char* IP, int port);
 
 		//RPC SHIT
-		std::unordered_map<std::string, std::tuple<Function, int>> rpcs;
+	  std::unordered_map<std::string, std::tuple<Function, int>> rpcs;
 		std::unordered_map<int, std::string> rpcNames;
 
 		template<class F>
 		void bindRPC(std::string const& name, F f) {
-			rpcs[name] = std::make_tuple(FunctionImpl<F>(std::move(f)), rpcCount);
+		  auto func = FunctionImpl<F>(std::move(f));
+		  rpcs[name] = std::make_tuple(func, rpcCount);
 			rpcNames[rpcCount] = name;
 			rpcCount++;
 		}
@@ -96,7 +97,8 @@ namespace ColaRPC {
 			//Make a shared pointer of the promise so when the response is sent back
 			//We can un-sleep the thread if any are waiting for the return value
 			auto promise = std::make_shared<std::promise<Value>>();
-			callPromises[callID] = promise;
+			
+			callPromises[callID] = promise; //Probably need to mutex this
 
 			Future future = Future(promise->get_future());
 			return future;
@@ -115,6 +117,7 @@ namespace ColaRPC {
 
 	  std::unordered_map<uint32_t, std::shared_ptr<std::promise<Value>>> callPromises;
 
+	  //Make this atomic?
 	  int getCallID() {
 		return ++callID;
 	  }

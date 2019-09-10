@@ -59,7 +59,9 @@ namespace ColaRPC {
 				Task task = TaskManager::commandBuffer.get();
 				TaskManager::getMtx.unlock();
 
-				(*task.func)(&task.ser);//Run the job with the supplied params
+				Value res = (*task.func)(&task.ser); //Run the job with the supplied params
+
+				std::cout << "Written: " << res.ser.write << " bytes\n";
 
 				//Free the memory
 				free(task.ser.buffer);
@@ -77,6 +79,6 @@ namespace ColaRPC {
 		if (t.joinable()) { // Shouldn't really happen
 			t.join();
 		}
-		t = std::thread([&]() {work();});
+		t = std::thread([&]() { work(); });
 	}
 }

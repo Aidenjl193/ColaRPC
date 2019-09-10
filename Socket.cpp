@@ -54,6 +54,7 @@ namespace ColaRPC {
 
 		if(recieved == 0) {
 		  free(buffer);
+		  //Should remove the peer
 		  return 0;
 		}
 
@@ -97,8 +98,6 @@ namespace ColaRPC {
 		
 		serializer.deserialize(&rpcID);
         serializer.deserialize(&callID);
-
-		
 		
 		Task t;
 		t.func = &std::get<0>(rpcs[rpcNames[rpcID]]);

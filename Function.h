@@ -6,6 +6,7 @@
 
 namespace ColaRPC {
 	typedef std::function<Value(ColaRPC::Serializer*)> Function;
+  
 	template<class F> class FunctionImpl;
 
 	template<class R, class... T>
