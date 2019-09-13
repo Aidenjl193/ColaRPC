@@ -13,12 +13,13 @@
 
 namespace ColaRPC {
   //Can't include function and compile / probably a circular dependancy
-  	typedef std::function<Value(ColaRPC::Serializer*)> Function;
+  	typedef std::function<Value(Serializer*)> Function;
   
 	struct Task {
 	public:
 	  Function* func;
 	  Serializer ser;
+	  void(*retFunc)(Serializer);
 	};
 
 	class TaskThread {

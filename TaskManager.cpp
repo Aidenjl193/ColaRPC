@@ -61,8 +61,12 @@ namespace ColaRPC {
 
 				Value res = (*task.func)(&task.ser); //Run the job with the supplied params
 
-				std::cout << "Written: " << res.ser.write << " bytes\n";
-
+				//Take the return value and send it to the initial caller
+				Serializer s;
+				s.buffer = (char*)malloc(65507);
+				s.serialize(res.ser);
+				(*task.retFunc)(s);
+				
 				//Free the memory
 				free(task.ser.buffer);
 			}

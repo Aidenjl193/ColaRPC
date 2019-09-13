@@ -7,6 +7,18 @@ namespace ColaRPC {
 		return memcmp(&a, &b, sizeof(sockaddr_in)) == 0;
 	}
 
+  void sendReturnResult(Serializer s) {
+	int rpcID = getRpcID(name);
+
+	uint32_t callID = getCallID();
+
+	s.serialize(rpcID);
+	s.serialize(callID);
+	
+	send((char*)&s.buffer[0], s.write, peerHandle);
+	free(s.buffer);
+  }
+
 	int Socket::generateUID() {
 		int UID = 0;
 		bool isUnique = false;
@@ -102,6 +114,7 @@ namespace ColaRPC {
 		Task t;
 		t.func = &std::get<0>(rpcs[rpcNames[rpcID]]);
 		t.ser = serializer;
+		t.retFunc = sendReturnResult;
 		TaskManager::assignTask(t);
 
 		return recieved;
