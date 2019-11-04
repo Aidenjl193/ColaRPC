@@ -117,6 +117,7 @@
   <ItemGroup>
     <ClInclude Include="CopyableAtomic.h" />
     <ClInclude Include="Function.h" />
+    <ClInclude Include="Future.h" />
     <ClInclude Include="P2P.h" />
     <ClInclude Include="Peer.h" />
     <ClInclude Include="Serializer.h" />

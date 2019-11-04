@@ -1,17 +1,16 @@
 #pragma once
-#include <vector>
 #include <string>
+#include <vector>
 
 namespace ColaRPC {
-  class Serializer {
-  public:
-	
+class Serializer {
+   public:
 	bool isBigEndian() {
-	    union {
-    	    uint32_t i;
-    		 char c[4];
-   		 } endian = {0x01020304};
-   		 return endian.c[0] == 1;
+		union {
+			uint32_t i;
+			char c[4];
+		} endian = {0x01020304};
+		return endian.c[0] == 1;
 	}
 	char* buffer;
 	int write = 0;
@@ -20,28 +19,28 @@ namespace ColaRPC {
 	void writeByte(char b);
 	char readByte();
 
-	//Recursive
+	// Recursive
 	void serialize(Serializer s);
-	
-	//int
+
+	// int
 	void serialize(int i);
 	bool deserialize(int* i);
 
-	//uint32
+	// uint32
 	void serialize(uint32_t i);
 	bool deserialize(uint32_t* i);
 
-	//float
+	// float
 	void serialize(float f);
-	void deserialize(float * f);
-	
-	//String
+	void deserialize(float* f);
+
+	// String
 	void serialize(std::string str);
 
 	void deserialize(std::string* str);
 
-	//char
+	// char
 	void serialize(char c);
 	void deserialize(char* c);
-  };
-}
+};
+}  // namespace ColaRPC

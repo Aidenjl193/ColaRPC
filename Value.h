@@ -2,35 +2,33 @@
 #include "Serializer.h"
 
 namespace ColaRPC {
-	class Value {
-		long value_;
-	public:
+class Value {
+	long value_;
 
-	  Serializer ser;
-	  
-	  ~Value() {
-		free(ser.buffer);
-	  }
-	  
-		template<class T>
-		T get() {
-			return (T)value_;
-		}
+   public:
+	Serializer ser;
 
-		template<class T>
-		T deserialize(ColaRPC::Serializer* ser) {
-			T t = T();
-			ser->deserialize(&t);
-			return t;
-		}
+	~Value() { free(ser.buffer); }
 
-		template<class T>
-		Value& operator=(T const& x) {
-		  //This could be a ram killer, need to find a better solution
-		  ser.buffer = (char*)malloc(65507);
-		  ser.serialize(x);
-		  value_ = x;
-		  return *this;
-		}
-	};
-}
+	template <class T>
+	T get() {
+		return (T)value_;
+	}
+
+	template <class T>
+	T deserialize(ColaRPC::Serializer* ser) {
+		T t = T();
+		ser->deserialize(&t);
+		return t;
+	}
+
+	template <class T>
+	Value& operator=(T const& x) {
+		// This could be a ram killer, need to find a better solution
+		ser.buffer = (char*)malloc(65507);
+		ser.serialize(x);
+		value_ = x;
+		return *this;
+	}
+};
+}  // namespace ColaRPC
