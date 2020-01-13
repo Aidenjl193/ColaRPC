@@ -21,12 +21,21 @@ int Socket::generateUID() {
 Socket::Socket(int port) {
 #ifdef _WIN32
 	WSAData data;
-	WSAStartup(MAKEWORD(2, 2), &data);
+	if (WSAStartup(MAKEWORD(2, 2), &data) != 0) {
+		std::cout << "Failed. Error Code : " << WSAGetLastError() << "\n";
+		return;
+	}
 #endif
+
 	local.sin_family = AF_INET;
 	local.sin_addr.s_addr = htonl(INADDR_ANY);
 	local.sin_port = htons(port);
 	s = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+
+	if (s == INVALID_SOCKET) {
+		std::cout << "Could not create socket : " << WSAGetLastError() << "\n";
+	}
+
 	bind(s, (sockaddr*)&local, sizeof(local));
 }
 
@@ -55,7 +64,7 @@ int Socket::recieve() {	 // Dish out messages to peers
 		return 0;
 	}
 
-	std::cout << "Incoming data!!!\n";
+
 
 	if (!addressExsits(senderAddr)) {  // If the peer does not exist add it to our pool
 		// Check if it maches our connection criteria
@@ -119,7 +128,7 @@ int Socket::newPeer(sockaddr_in addr) {
 int32_t Socket::recvFrom(char* buffer, int length, sockaddr_in* senderAddr,
 						 socklen_t SenderAddrSize) {
 #ifdef _WIN32
-	return recvfrom(s, buffer, length, 0, (SOCKADDR*)senderAddr,
+	return recvfrom(s, buffer, length, 0, (sockaddr*)senderAddr,
 					&SenderAddrSize);
 #else
 	return recvfrom(s, (void*)buffer, length, 0, (SOCKADDR*)senderAddr,
