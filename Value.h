@@ -6,12 +6,12 @@ class Value {
 	long value_;
 
    public:
-	Serializer ser;
+	//Serializer ser;
 
 	~Value() {
-	  if(ser.buffer) {
-	      free(ser.buffer);
-	  }
+		//if (allocated) {
+	 //     free(ser.buffer);
+	 // }
 	}
 
 	template <class T>
@@ -29,9 +29,9 @@ class Value {
 	//Big stanky disgusting code
 	template <class T>
 	Value& operator=(T const& x) {
-		// This could be a ram killer, need to find a better solution
-		ser.buffer = (char*)malloc(65507);
-		ser.serialize(x);
+		//// This could be a ram killer, need to find a better solution
+		//ser.buffer = (char*)malloc(65507);
+		//ser.serialize(x);
 		value_ = x;
 		return *this;
 	}

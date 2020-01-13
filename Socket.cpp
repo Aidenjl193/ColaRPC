@@ -128,7 +128,7 @@ int Socket::newPeer(sockaddr_in addr) {
 int32_t Socket::recvFrom(char* buffer, int length, sockaddr_in* senderAddr,
 						 socklen_t SenderAddrSize) {
 #ifdef _WIN32
-	return recvfrom(s, buffer, length, 0, (sockaddr*)senderAddr,
+	return recvfrom(s, buffer, length, 0, (SOCKADDR*)senderAddr,
 					&SenderAddrSize);
 #else
 	return recvfrom(s, (void*)buffer, length, 0, (SOCKADDR*)senderAddr,

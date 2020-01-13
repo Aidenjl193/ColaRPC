@@ -42,14 +42,14 @@ int main() {
 			sock.recieve();	 // process RPCs
 		}
 	} else {
-		const char* IP = "127.0.0.1";
+		const char* IP = "192.168.0.9";
 
 		std::cout << "Enter host port:\n";
 		int port = 0;
 		std::cin >> port;
 
 		std::cout << "Connecting to host at: " << IP << ":" << port << "\n";
-		int peerHandle = sock.newPeer((char*)&IP, port);
+		int peerHandle = sock.newPeer(IP, port);
 
 		while (true) {
 			std::cout << "Enter message!\n";
