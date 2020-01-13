@@ -96,7 +96,6 @@ class Socket {
 
 		serializeArgs(&ser, Args...);
 		send((char*)&ser.buffer[0], ser.write, peerHandle);
-		std::cout << WSAGetLastError(); 
 		free(data);
 
 		// Make a shared pointer of the promise so when the response is sent

@@ -8,7 +8,11 @@ class Value {
    public:
 	Serializer ser;
 
-	~Value() { free(ser.buffer); }
+	~Value() {
+	  if(ser.buffer) {
+	      free(ser.buffer);
+	  }
+	}
 
 	template <class T>
 	T get() {

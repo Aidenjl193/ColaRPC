@@ -40,12 +40,11 @@ class FunctionImpl<R (*)(T...)> {
 				 std::make_integer_sequence<
 					 std::size_t, std::tuple_size<std::tuple<T...>>::value>());
 		// Send the result back to the caller of the RPC
-		sendResultToCaller(result, ser);
+		//sendResultToCaller(result, ser);
 		return result;
 	}
 
 	void sendResultToCaller(Value result, Serializer* ser) {
-		std::cout << "Inside RPC return!!!\n";
 		//Best course of action might be to add 
 	}
 };
