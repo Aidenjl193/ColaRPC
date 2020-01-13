@@ -46,6 +46,7 @@ class FunctionImpl<R (*)(T...)> {
 
 	void sendResultToCaller(Value result, Serializer* ser) {
 		std::cout << "Inside RPC return!!!\n";
+		//Best course of action might be to add 
 	}
 };
 }  // namespace ColaRPC

@@ -37,6 +37,7 @@ int Socket::send(const char* packet, int len, int peerHandle) {
 
 int Socket::getRpcID(std::string RPC) { return std::get<1>(rpcs[RPC]); }
 
+
 int Socket::recieve() {	 // Dish out messages to peers
 	sockaddr_in senderAddr;
 	socklen_t SenderAddrSize = sizeof(sockaddr_in);
@@ -46,13 +47,7 @@ int Socket::recieve() {	 // Dish out messages to peers
 
 	int len = PACKET_SIZE;
 
-#ifdef _WIN32
-	int32_t recieved =
-		recvfrom(s, buffer, len, 0, (SOCKADDR*)&senderAddr, &SenderAddrSize);
-#else
-	int32_t recieved = recvfrom(s, (void*)buffer, len, 0,
-								(SOCKADDR*)&senderAddr, &SenderAddrSize);
-#endif
+	int32_t recieved = recvFrom(buffer, len, &senderAddr, SenderAddrSize);
 
 	if (recieved == 0) {
 		free(buffer);
@@ -60,16 +55,7 @@ int Socket::recieve() {	 // Dish out messages to peers
 		return 0;
 	}
 
-	// Check if we have a connection with this peer currently
-	int index = -1;
-
-	for (std::map<int, Peer>::value_type& x : peers) {
-		if (x.second.address == senderAddr) {
-			index = x.second.handle;
-		}
-	}
-
-	if (index == -1) {	// If the peer does not exist add it to our pool
+	if (!addressExsits(senderAddr)) {  // If the peer does not exist add it to our pool
 		// Check if it maches our connection criteria
 		char IP[INET_ADDRSTRLEN];
 		inet_ntop(AF_INET, &(senderAddr.sin_addr), IP, INET_ADDRSTRLEN);
@@ -125,5 +111,26 @@ int Socket::newPeer(sockaddr_in addr) {
 	newPeer.handle = peerHandle;
 	peers[peerHandle] = newPeer;
 	return peerHandle;
+}
+
+// Cross platform wrapper
+int32_t Socket::recvFrom(char* buffer, int length, sockaddr_in* senderAddr,
+						 socklen_t SenderAddrSize) {
+#ifdef _WIN32
+	return recvfrom(s, buffer, length, 0, (SOCKADDR*)senderAddr,
+					&SenderAddrSize);
+#else
+	return recvfrom(s, (void*)buffer, len, 0, (SOCKADDR*senderAddr,
+					&SenderAddrSize);
+#endif
+}
+
+bool Socket::addressExsits(sockaddr_in addr) {
+	for (std::map<int, Peer>::value_type& x : peers) {
+		if (x.second.address == addr) {
+			return true;
+		}
+	}
+	return false;
 }
 }  // namespace ColaRPC

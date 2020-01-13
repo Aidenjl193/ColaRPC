@@ -22,6 +22,7 @@ class Value {
 		return t;
 	}
 
+	//Big stanky disgusting code
 	template <class T>
 	Value& operator=(T const& x) {
 		// This could be a ram killer, need to find a better solution

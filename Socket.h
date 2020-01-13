@@ -127,5 +127,11 @@ class Socket {
 	int getCallID() { return ++callID; }
 
 	int generateUID();
+
+	int32_t recvFrom(char* buffer, int length, sockaddr_in* senderAddr,
+					socklen_t SenderAddrSize);
+
+	bool addressExsits(sockaddr_in addr);
+
 };
 }  // namespace ColaRPC
