@@ -24,7 +24,7 @@ Socket::Socket(int port) {
 	WSAStartup(MAKEWORD(2, 2), &data);
 #endif
 	local.sin_family = AF_INET;
-	local.sin_addr.s_addr = INADDR_ANY;
+	local.sin_addr.s_addr = htonl(INADDR_ANY);
 	local.sin_port = htons(port);
 	s = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 	bind(s, (sockaddr*)&local, sizeof(local));
@@ -54,6 +54,8 @@ int Socket::recieve() {	 // Dish out messages to peers
 		// Should remove the peer
 		return 0;
 	}
+
+	std::cout << "Incoming data!!!\n";
 
 	if (!addressExsits(senderAddr)) {  // If the peer does not exist add it to our pool
 		// Check if it maches our connection criteria
@@ -120,7 +122,7 @@ int32_t Socket::recvFrom(char* buffer, int length, sockaddr_in* senderAddr,
 	return recvfrom(s, buffer, length, 0, (SOCKADDR*)senderAddr,
 					&SenderAddrSize);
 #else
-	return recvfrom(s, (void*)buffer, len, 0, (SOCKADDR*senderAddr,
+	return recvfrom(s, (void*)buffer, length, 0, (SOCKADDR*)senderAddr,
 					&SenderAddrSize);
 #endif
 }
